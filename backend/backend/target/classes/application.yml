@@ -1,0 +1,17 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    username: root
+    password: iamking888
+    url: jdbc:mysql://localhost:3306/conference_system
+
+  redis:
+    port: 6379
+    host: localhost
+
+logging:
+  level:
+    com.example: debug
+
