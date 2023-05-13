@@ -1,7 +1,7 @@
 package com.example.sys.mapper;
 
+import com.example.sys.entity.Pdf;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.example.sys.entity.Paper;
 
 /**
  * <p>
@@ -9,8 +9,8 @@ import com.example.sys.entity.Paper;
  * </p>
  *
  * @author TangZT
- * @since 2023-05-05
+ * @since 2023-05-13
  */
-public interface PaperMapper extends BaseMapper<Paper> {
+public interface PdfMapper extends BaseMapper<Pdf> {
 
 }

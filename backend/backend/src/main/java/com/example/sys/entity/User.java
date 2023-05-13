@@ -9,28 +9,36 @@ import java.io.Serializable;
  * </p>
  *
  * @author TangZT
- * @since 2023-05-05
+ * @since 2023-05-13
  */
 @TableName("x_user")
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Integer id;
+    private String id;
 
     private String username;
 
     private String password;
 
-    private String school;
+    private String faculty;
 
-    private String email;
+    private String department;
 
-    public Integer getId() {
+    private String academicSystem;
+
+    private String researchDirection;
+
+    private String politicalStatus;
+
+    private String contact;
+
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
     public String getUsername() {
@@ -47,19 +55,47 @@ public class User implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
-    public String getSchool() {
-        return school;
+    public String getFaculty() {
+        return faculty;
     }
 
-    public void setSchool(String school) {
-        this.school = school;
+    public void setFaculty(String faculty) {
+        this.faculty = faculty;
     }
-    public String getEmail() {
-        return email;
+    public String getDepartment() {
+        return department;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+    public String getAcademicSystem() {
+        return academicSystem;
+    }
+
+    public void setAcademicSystem(String academicSystem) {
+        this.academicSystem = academicSystem;
+    }
+    public String getResearchDirection() {
+        return researchDirection;
+    }
+
+    public void setResearchDirection(String researchDirection) {
+        this.researchDirection = researchDirection;
+    }
+    public String getPoliticalStatus() {
+        return politicalStatus;
+    }
+
+    public void setPoliticalStatus(String politicalStatus) {
+        this.politicalStatus = politicalStatus;
+    }
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
     }
 
     @Override
@@ -68,8 +104,12 @@ public class User implements Serializable {
             "id=" + id +
             ", username=" + username +
             ", password=" + password +
-            ", school=" + school +
-            ", email=" + email +
+            ", faculty=" + faculty +
+            ", department=" + department +
+            ", academicSystem=" + academicSystem +
+            ", researchDirection=" + researchDirection +
+            ", politicalStatus=" + politicalStatus +
+            ", contact=" + contact +
         "}";
     }
 }

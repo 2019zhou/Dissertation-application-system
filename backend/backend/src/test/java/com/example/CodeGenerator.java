@@ -18,14 +18,14 @@ public class CodeGenerator {
         String username = "root";
         String password = "iamking888";
         String moduleName = "sys";
-        String mapperLocation = "F:\\PostGraduate1_2\\conference_system\\code\\backend\\src\\main\\resources\\mapper\\" + moduleName;
-        String  tables = "x_user,x_paper";
+        String mapperLocation = "F:\\PostGraduate1_2\\conference_system\\git_code\\backend\\backend\\src\\main\\resources\\mapper\\" + moduleName;
+        String tables = "x_user,x_paper,x_scientific,x_pdf,x_blind_review";
         FastAutoGenerator.create(url, username, password)
                 .globalConfig(builder -> {
                     builder.author("TangZT") // 设置作者
                             //.enableSwagger() // 开启 swagger 模式
                             //.fileOverride() // 覆盖已生成文件
-                            .outputDir("F:\\PostGraduate1_2\\conference_system\\code\\backend\\src\\main\\java"); // 指定输出目录
+                            .outputDir("F:\\PostGraduate1_2\\conference_system\\git_code\\backend\\backend\\src\\main\\java"); // 指定输出目录
                 })
                 /*.dataSourceConfig(builder -> builder.typeConvertHandler((globalConfig, typeRegistry, metaInfo) -> {
                     int typeCode = metaInfo.getJdbcType().TYPE_CODE;

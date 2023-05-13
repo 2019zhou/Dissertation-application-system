@@ -1,7 +1,7 @@
 package com.example.sys.mapper;
 
-import com.example.sys.entity.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.example.sys.entity.User;
 
 /**
  * <p>

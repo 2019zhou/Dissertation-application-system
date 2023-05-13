@@ -1,7 +1,7 @@
 package com.example.sys.service;
 
+import com.example.sys.entity.Scientific;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.example.sys.entity.Paper;
 
 /**
  * <p>
@@ -9,8 +9,8 @@ import com.example.sys.entity.Paper;
  * </p>
  *
  * @author TangZT
- * @since 2023-05-05
+ * @since 2023-05-13
  */
-public interface IPaperService extends IService<Paper> {
+public interface IScientificService extends IService<Scientific> {
 
 }
