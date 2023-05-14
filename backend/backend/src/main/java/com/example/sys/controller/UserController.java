@@ -18,7 +18,7 @@ import java.util.Map;
  * @since 2023-05-05
  */
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api")
 public class UserController {
 
     @Autowired
@@ -37,6 +37,15 @@ public class UserController {
             return Result.success(data);
         }
         return Result.fail(202, "用户名或密码错误");
+    }
+
+    @PostMapping("/UpdatePersonalInfo")
+    public Result<Map<String, Object>> updatePersonalInfo(@RequestBody User user){
+        Map<String, Object> data = userService.updatePersonalInfo(user);
+        if(data != null){
+            return Result.success(data);
+        }
+        return Result.fail(202, "学号不存在，更新失败");
     }
 
     @GetMapping("/info")

@@ -1,5 +1,7 @@
 package com.example.sys.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -17,7 +19,8 @@ public class Scientific implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private String id;
+    @TableId(value = "id", type = IdType.AUTO)
+    private Integer id;
 
     private String userId;
 
@@ -27,15 +30,15 @@ public class Scientific implements Serializable {
 
     private String journal;
 
-    private LocalDate commitTime;
+    private String commitTime;
 
     private String type;
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
     public String getUserId() {
@@ -66,11 +69,11 @@ public class Scientific implements Serializable {
     public void setJournal(String journal) {
         this.journal = journal;
     }
-    public LocalDate getCommitTime() {
+    public String getCommitTime() {
         return commitTime;
     }
 
-    public void setCommitTime(LocalDate commitTime) {
+    public void setCommitTime(String commitTime) {
         this.commitTime = commitTime;
     }
     public String getType() {

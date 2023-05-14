@@ -32,7 +32,9 @@ public class User implements Serializable {
 
     private String politicalStatus;
 
-    private String contact;
+    private String phone;
+
+    private String mail;
 
     public String getId() {
         return id;
@@ -90,12 +92,21 @@ public class User implements Serializable {
     public void setPoliticalStatus(String politicalStatus) {
         this.politicalStatus = politicalStatus;
     }
-    public String getContact() {
-        return contact;
+
+    public String getPhone() {
+        return phone;
     }
 
-    public void setContact(String contact) {
-        this.contact = contact;
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
     }
 
     @Override
@@ -109,7 +120,8 @@ public class User implements Serializable {
             ", academicSystem=" + academicSystem +
             ", researchDirection=" + researchDirection +
             ", politicalStatus=" + politicalStatus +
-            ", contact=" + contact +
+            ", phone=" + phone +
+            ", mail=" + mail +
         "}";
     }
 }

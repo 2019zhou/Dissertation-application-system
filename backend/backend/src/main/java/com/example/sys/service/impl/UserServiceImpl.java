@@ -28,12 +28,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     @Autowired
     private RedisTemplate redisTemplate;
+    @Autowired
+    private UserMapper userMapper;
 
     @Override
     public Map<String, Object> login(User user) {
         // 查询用户是否存在
         LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(User::getUsername, user.getUsername());
+        // wrapper.eq(User::getUsername, user.getUsername());
+        wrapper.eq(User::getId, user.getId());
         wrapper.eq(User::getPassword, user.getPassword());
         User loginUser = this.baseMapper.selectOne(wrapper);
         if(loginUser != null){
@@ -48,6 +51,30 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
              Map<String, Object> data = new HashMap<>();
              data.put("token", key);
              return data;
+        }
+        return null;
+    }
+
+    @Override
+    public Map<String, Object> updatePersonalInfo(User user) {
+        // 根据学号id查询用户是否存在
+        LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(User::getId, user.getId());
+        User updateUser = this.baseMapper.selectOne(wrapper);
+        if(updateUser != null){
+            // 更新用户信息
+            updateUser.setUsername(user.getUsername());
+            updateUser.setFaculty(user.getFaculty());
+            updateUser.setDepartment(user.getDepartment());
+            updateUser.setAcademicSystem(user.getAcademicSystem());
+            updateUser.setResearchDirection(user.getResearchDirection());
+            updateUser.setPoliticalStatus(user.getPoliticalStatus());
+            updateUser.setPhone(user.getPhone());
+            updateUser.setMail(user.getMail());
+            userMapper.updatePersonalInfo(updateUser);
+            Map<String, Object> data = new HashMap<>();
+            data.put("updateInfo", updateUser.toString());
+            return data;
         }
         return null;
     }
@@ -70,4 +97,5 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     public void logout(String token) {
         redisTemplate.delete(token);
     }
+
 }
