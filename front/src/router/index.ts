@@ -109,20 +109,14 @@ const routes: Array<RouteRecordRaw> = [
             name: 'admin_forward_degree_application_results',
             component: () => import('@/views/admin/forward_degree_application_results.vue'),
             meta: {}
+        },
+        {
+            path: '/admin/submit_reviews',
+            name: 'admin_submit_reviews',
+            component: () => import('@/views/admin/submit_reviews.vue'),
+            meta: {}
         }
         ]
-    },
-    {
-        path: '/teacher',
-        name: 'teacher',
-        component: Layout,
-        meta: {},
-        children: [{
-            path: '/teacher/review',
-            name: 'teacher_review',
-            component: () => import('@/views/teacher/review.vue'),
-            meta: {}
-        }]
     }
 ]
 
