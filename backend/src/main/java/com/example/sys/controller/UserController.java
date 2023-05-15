@@ -30,6 +30,15 @@ public class UserController {
         return Result.success(list, "search success");
     }
 
+    @GetMapping("/GetRole")
+    public Result<Map<String, Object>> getRole(@RequestParam("id") String id){
+        Map<String, Object> data = userService.getRole(id);
+        if(data != null){
+            return Result.success(data);
+        }
+        return Result.fail(203, "用户id不存在");
+    }
+
     @PostMapping("/login")
     public Result<Map<String, Object>> login(@RequestBody User user){
         Map<String, Object> data = userService.login(user);
