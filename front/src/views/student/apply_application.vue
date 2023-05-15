@@ -1,185 +1,126 @@
 <template>
-    <h2>中选论文公示页面</h2>
-    <a-table :dataSource="papers" :columns="columns">
-        <template #bodyCell="{ column, record }">
-            <template v-if="column.key === 'title'">
-                <a @click="showDrawer(record.id)">{{ record.title }}</a>
-            </template>
-        </template>
-    </a-table>
-    <a-drawer width="800" placement="right" :closable="false" :visible="visible" @close="onClose">
-        <a-descriptions title="论文详情" bordered>
-            <a-descriptions-item label="论文标题">{{ paper.title }}</a-descriptions-item>
-            <a-descriptions-item label="所属领域">{{ paper.expertise }}</a-descriptions-item>
-            <a-descriptions-item label="论文状态">{{ paper.state }}</a-descriptions-item>
-            <a-descriptions-item label="论文摘要" :span="3">{{ paper.abstracts }}</a-descriptions-item>
-            <a-descriptions-item label="关键字">{{ paper.keywords }}</a-descriptions-item>
-            <a-descriptions-item label="提交时间">{{ paper.commitTime }}</a-descriptions-item>
-            <a-descriptions-item label="投递流程" > 
-                <a-timeline mode="left">
-                <template v-if="paper.state==='待审核'">
-                <a-timeline-item color="green">提交</a-timeline-item>
-                <a-timeline-item color="blue">审阅</a-timeline-item>
-                <a-timeline-item color="grey">辩驳</a-timeline-item>
-                <a-timeline-item color="grey">再审阅</a-timeline-item>
-                <a-timeline-item color="grey">最终结果</a-timeline-item>
-                </template>
-                <template v-else-if="paper.state==='待辩论'">
-                <a-timeline-item color="green">提交</a-timeline-item>
-                <a-timeline-item color="green">审阅</a-timeline-item>
-                <a-timeline-item color="blue">辩驳</a-timeline-item>
-                <a-timeline-item color="grey">再审阅</a-timeline-item>
-                <a-timeline-item color="grey">最终结果</a-timeline-item>
-                </template>
-                <template v-else-if="paper.state==='已辩论'">
-                <a-timeline-item color="green">提交</a-timeline-item>
-                <a-timeline-item color="green">审阅</a-timeline-item>
-                <a-timeline-item color="green">辩驳</a-timeline-item>
-                <a-timeline-item color="blue">再审阅</a-timeline-item>
-                <a-timeline-item color="grey">最终结果</a-timeline-item>
-                </template>
-                <template v-else-if="paper.state==='已确认'">
-                <a-timeline-item color="green">提交</a-timeline-item>
-                <a-timeline-item color="green">审阅</a-timeline-item>
-                <a-timeline-item color="green">辩驳</a-timeline-item>
-                <a-timeline-item color="green">再审阅</a-timeline-item>
-                <a-timeline-item color="blue">最终结果</a-timeline-item>
-                </template>
-                <template v-else-if="paper.state==='已接收'">
-                <a-timeline-item color="green">提交</a-timeline-item>
-                <a-timeline-item color="green">审阅</a-timeline-item>
-                <a-timeline-item color="green">辩驳</a-timeline-item>
-                <a-timeline-item color="green">再审阅</a-timeline-item>
-                <a-timeline-item color="green">最终结果:已接收</a-timeline-item>
-                </template>
-                <template v-else-if="paper.state==='已拒绝'">
-                <a-timeline-item color="green">提交</a-timeline-item>
-                <a-timeline-item color="green">审阅</a-timeline-item>
-                <a-timeline-item color="green">辩驳</a-timeline-item>
-                <a-timeline-item color="green">再审阅</a-timeline-item>
-                <a-timeline-item color="red">最终结果:已拒绝</a-timeline-item>
-                </template>
-                </a-timeline>
-            </a-descriptions-item>
-        </a-descriptions>
-        <a-divider />
-        <b>作者详情</b>
-        <a-list :data-source="paper.authors">
-            <template #renderItem="{ item }">
-                <a-descriptions :title="item.username" bordered>
-                    <a-descriptions-item label="姓名">{{ item.name }}</a-descriptions-item>
-                    <a-descriptions-item label="学校/组织">{{ item.school }}</a-descriptions-item>
-                    <a-descriptions-item label="国家">{{ item.country }}</a-descriptions-item>
-                    <a-descriptions-item label="邮箱">{{ item.email }}</a-descriptions-item>
-                </a-descriptions>
-                <a-divider />
-            </template>
-        </a-list>
-
-        <a-button type="primary" :href="'http://198.211.5.158:9875/api/download?uuid=' + paper.uuid" target="_blank">
-            <template #icon>
-                <DownloadOutlined />
-            </template>
-            下载论文
-        </a-button>
-    </a-drawer>
+  <a-form :form="form" @submit="handleSubmit">
+    <a-row :gutter="24">
+      <a-col :span="12">
+        <a-form-item label="论文题目" prop="name">
+          <a-input v-model="form.dissertation_name" placeholder="请输入论文题目"></a-input>
+        </a-form-item>
+      </a-col>
+      <a-col :span="12">
+        <a-form-item label="关键字" prop="studentId">
+          <a-input v-model="form.key_word" placeholder="请输入论文关键字"></a-input>
+        </a-form-item>
+      </a-col>
+    </a-row>
+    <a-row :gutter="24">
+      <a-col :span="12">
+        <a-form-item label="导师工作单位" prop="faculty">
+          <a-input v-model="form.director_affiliation" placeholder="请输入导师工作单位"></a-input>
+        </a-form-item>
+      </a-col>
+      <a-col :span="12">
+        <a-form-item label="导师从事的学科领域" prop="department">
+          <a-input v-model="form.director_direction" placeholder="请输入导师从事的学科领域"></a-input>
+        </a-form-item>
+      </a-col>
+    </a-row>
+    <a-form-item label="论文答辩日期">
+              <a-date-picker v-model="form.presentation_time" format="YYYY-MM-DD" />
+            </a-form-item>
+    <a-row :gutter="16" class="form-row">
+      <a-col :span="8">
+        <a-form-item label="导师一&nbsp;: 姓名" :colon="false">
+          <a-input v-model="form.director1_name" />
+        </a-form-item>
+      </a-col>
+      <a-col :span="8">
+        <a-form-item label="单位" :colon="false">
+          <a-input v-model="form.director1_affiliation" />
+        </a-form-item>
+      </a-col>
+      <a-col :span="8">
+        <a-form-item label="职称" :colon="false">
+          <a-input v-model="form.director1_title" />
+        </a-form-item>
+      </a-col>
+    </a-row>
+    <a-row :gutter="16" class="form-row">
+      <a-col :span="8">
+        <a-form-item label="导师二&nbsp;: 姓名" :colon="false">
+          <a-input v-model="form.director2_name" />
+        </a-form-item>
+      </a-col>
+      <a-col :span="8">
+        <a-form-item label="单位" :colon="false">
+          <a-input v-model="form.director2_affiliation" />
+        </a-form-item>
+      </a-col>
+      <a-col :span="8">
+        <a-form-item label="职称" :colon="false">
+          <a-input v-model="form.director2_title" />
+        </a-form-item>
+      </a-col>
+    </a-row>
+    <a-row :gutter="16" class="form-row">
+      <a-col :span="8">
+        <a-form-item label="导师三&nbsp;: 姓名" :colon="false">
+          <a-input v-model="form.director3_name" />
+        </a-form-item>
+      </a-col>
+      <a-col :span="8">
+        <a-form-item label="单位" :colon="false">
+          <a-input v-model="form.director3_affiliation" />
+        </a-form-item>
+      </a-col>
+      <a-col :span="8">
+        <a-form-item label="职称" :colon="false">
+          <a-input v-model="form.director3_title" />
+        </a-form-item>
+      </a-col>
+    </a-row>
+    <a-form-item :wrapper-col="{ offset: 0, span: 12 }">
+        <a-button type="primary" @click="handleSubmit">更新答辩申请</a-button>
+      </a-form-item>
+  </a-form>
 </template>
+  
+  <script lang="ts">
+import { Form, Input, Button, Textarea, Row, Col } from "ant-design-vue";
 
-<script setup lang="ts">
-import { ref, Ref } from 'vue'
-import { GetPapersWithReviewerApi, GetPapersApi, GetPaperDetailByIdApi, DeletePaperByIdAdminApi, AcceptPaperApi, RejectPaperApi } from '@/request/api';
-import { Modal, message } from 'ant-design-vue';
-import { createVNode, defineComponent } from 'vue';
-import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
-
-const columns = [
-    {
-        title: '论文编号',
-        dataIndex: 'id',
-        key: 'id',
+export default {
+  components: {
+    Form,
+    Input,
+    Button,
+    Textarea,
+    Row,
+    Col,
+  },
+  data() {
+    return {
+      form: {
+        dissertation_name: "",
+        key_word: "",
+        presentation_time: "",
+        director_affiliation: "",
+        director_direction: "",
+        director1_name: "",
+        director1_affiliation: "",
+        director1_title: "",
+        director2_name: "",
+        director2_affiliation: "",
+        director2_title: "",
+        director3_name: "",
+        director3_affiliation: "",
+        director3_title: "",
+      },
+    };
+  },
+  methods: {
+    handleSubmit() {
+      console.log("提交的表单数据：", this.form);
     },
-    {
-        title: '论文标题',
-        dataIndex: 'title',
-        key: 'title',
-    },
-    {
-        title: '投稿时间',
-        dataIndex: 'commitTime',
-        key: 'commitTime',
-    },
-    {
-        title: '归属类别',
-        dataIndex: 'expertise',
-        key: 'expertise',
-    },
-    {
-        title: '状态',
-        dataIndex: 'state',
-        key: 'state',
-    }
-];
-
-const papers: Ref<any[]> = ref([]);
-
-const getpapers = () => {
-    papers.value = []
-    GetPapersApi().then((res: any) => {
-        if (res.errno === 0) {
-            for(var i=0;i<res.data['papers'].length;i++){
-                const paper = res.data['papers'][i];
-                if(paper.state == "已接收"){
-                    papers.value.push(paper)
-                }
-            }
-        }
-    })
-}
-getpapers();
-
-const paper = ref({
-    uuid: '',
-    title: '',
-    abstracts: '',
-    expertise: '',
-    keywords:'',
-    commitTime: '',
-    state: '',
-    authors: [
-        {
-            username: '',
-            name: '',
-            email: '',
-            school: '',
-            country: '',
-        },
-        {
-            username: '',
-            name: '',
-            email: '',
-            school: '',
-            country: '',
-        }
-    ],
-    reviewer: ''
-})
-
-const paperid = ref(0);
-const visible = ref<boolean>(false);
-const showDrawer = (id: number) => {
-    paperid.value = id;
-    GetPaperDetailByIdApi(id).then((res: any) => {
-        if (res.errno === 0) {
-            paper.value = res.data['detail'];
-            visible.value = true;
-        }
-    })
+  },
 };
-const onClose = () => {
-    visible.value = false;
-};
-
 </script>
-
-<style scoped lang="scss">
-</style>
+  
