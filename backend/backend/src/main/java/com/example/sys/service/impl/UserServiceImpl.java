@@ -2,6 +2,7 @@ package com.example.sys.service.impl;
 
 import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.example.sys.entity.Scientific;
 import com.example.sys.entity.User;
 import com.example.sys.mapper.UserMapper;
 import com.example.sys.service.IUserService;
@@ -11,6 +12,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -74,6 +76,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             userMapper.updatePersonalInfo(updateUser);
             Map<String, Object> data = new HashMap<>();
             data.put("updateInfo", updateUser.toString());
+            return data;
+        }
+        return null;
+    }
+
+    @Override
+    public Map<String, Object> getRole(String id) {
+        // 根据学号id查询用户是否存在
+        String username = userMapper.getUsernameById(id);
+        if(username != null){
+            String role = "student";
+            if (username.equals("manager"))role = "manager";
+            Map<String, Object> data = new HashMap<>();
+            data.put("role", role);
             return data;
         }
         return null;

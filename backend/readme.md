@@ -2,7 +2,7 @@
 
 数据库：mysql  
 
-测试：postman  
+测试：apipost
 
 缓存：redis
 
