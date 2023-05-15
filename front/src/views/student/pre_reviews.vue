@@ -1,83 +1,93 @@
 <template>
-    <div>
-      <a-card
-        v-for="(publication, index) in publications"
-        :key="index"
-        style="margin-bottom: 26px"
-      >
-              <a-form-item label="发表论文">
-                <a-input
-                  v-model="publication.paper"
-                  placeholder="请输入论文名称"
-                />
-              </a-form-item>
-              <a-form-item label="作者位次">
-                <a-input
-                  v-model="publication.journal"
-                  placeholder="请输入第几作者"
-                />
-              </a-form-item>
-              <a-form-item label="发表地址">
-                <a-input
-                  v-model="publication.journal"
-                  placeholder="请输入期刊/会议名称"
-                />
-              </a-form-item>
-              <a-form-item label="发表日期">
-                <a-date-picker v-model="publication.date" format="YYYY-MM-DD" />
-              </a-form-item>
-              <a-form-item label="发表类型">
-                <a-select v-model="publication.type" placeholder="请选择类型">
-                  <a-select-option value="CCF-A">CCF-A</a-select-option>
-                  <a-select-option value="CCF-B">CCF-B</a-select-option>
-                  <a-select-option value="CCF-C">CCF-C</a-select-option>
-                  <a-select-option value="一区">SCI &nbsp;一区</a-select-option>
-                  <a-select-option value="二区">SCI &nbsp;二区</a-select-option>
-                  <a-select-option value="三区">SCI &nbsp;三区</a-select-option>
-                  <a-select-option value="三区">EI</a-select-option>
-                </a-select>
-              </a-form-item>
-            <a-button type="danger-default" @click="deletePublication(index)"
-              >删除</a-button
-            >
-      </a-card>
-      <a-row>
-        <a-col :span="20">
-          <a-form-item>
-            <a-button type="dashed" @click="addPublication"
-              >添加发表论文</a-button
-            >
-          </a-form-item>
-        </a-col>
-      </a-row>
-    </div>
-  </template>
-    
-    <script lang="ts">
-  export default {
-    data() {
-      return {
-        publications: [{ paper: "", journal: "", date: "", type: "" }],
-        labelCol: { span: 4 },
-        wrapperCol: { span: 16 },
-      };
-    },
-    methods: {
-      addPublication() {
-        this.publications.push({ name: "", date: "" });
+  <a-form
+    :model="formState"
+    v-bind="layout"
+    name="nest-messages"
+    @finish="onFinish"
+    :label-col="{ span: 6 }"
+    :wrapper-col="{ span: 12 }"
+  >
+    <a-form-item :name="['user', 'name']" label="论文题目">
+      <a-input v-model:value="formState.user.name" />
+    </a-form-item>
+    <a-form-item :name="['user', 'website']" label="研究方向">
+      <a-input v-model:value="formState.user.website" />
+    </a-form-item>
+    <a-form-item :name="['user', 'introduction']" label="论文摘要">
+      <a-textarea v-model:value="formState.user.introduction" />
+    </a-form-item>
+    <a-form-item :wrapper-col="{ ...layout.wrapperCol, offset: 6}">
+    <a-upload
+      v-model:file-list="fileList"
+      name="file"
+      action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+      :headers="headers"
+      @change="handleChange"
+    >
+      <a-button>
+        <upload-outlined></upload-outlined>
+        上传论文预审稿
+      </a-button>
+    </a-upload>
+  </a-form-item>
+    <a-form-item :wrapper-col="{ ...layout.wrapperCol, offset: 6}">
+      <a-button type="primary" html-type="submit">更新论文预审信息</a-button>
+    </a-form-item>
+  </a-form>
+</template>
+
+
+<script lang="ts">
+import { InboxOutlined, UploadOutlined } from "@ant-design/icons-vue";
+import { message } from "ant-design-vue";
+import { defineComponent, ref, reactive } from "vue";
+import type { UploadChangeParam } from "ant-design-vue";
+
+export default defineComponent({
+  components: {
+    InboxOutlined,
+    UploadOutlined,
+  },
+  setup() {
+    const layout = {
+      labelCol: { span: 8 },
+      wrapperCol: { span: 16 },
+    };
+
+    const formState = reactive({
+      user: {
+        name: "",
+        age: undefined,
+        email: "",
+        website: "",
+        introduction: "",
       },
-      deletePublication(index) {
-        this.publications.splice(index, 1);
+    });
+    const onFinish = (values: any) => {
+      console.log("Success:", values);
+    };
+    const handleChange = (info: UploadChangeParam) => {
+      if (info.file.status !== "uploading") {
+        console.log(info.file, info.fileList);
+      }
+      if (info.file.status === "done") {
+        message.success(`${info.file.name} file uploaded successfully`);
+      } else if (info.file.status === "error") {
+        message.error(`${info.file.name} file upload failed.`);
+      }
+    };
+    const fileList = ref([]);
+    return {
+      formState,
+      onFinish,
+      layout,
+      fileList,
+      headers: {
+        authorization: "authorization-text",
       },
-    },
-  };
-  </script>
-    
-    <style scoped>
-  .delete-button-col {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  </style>
-    
+      handleChange,
+    };
+  },
+});
+</script>
+

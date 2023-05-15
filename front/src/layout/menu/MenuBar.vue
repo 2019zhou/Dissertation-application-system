@@ -33,19 +33,19 @@
                     <router-link to="/student/get_apply_degree_results">学位申请结果</router-link>
                 </a-menu-item>
             </a-sub-menu>
-            <a-sub-menu key="review" v-if="user.role == 'researcher'">
+            <a-sub-menu key="admin" v-if="user.role != 'researcher'">
                 <template #icon>
                     <file-search-outlined />
                 </template>
-                <template #title>审稿</template>
-                <a-menu-item key="review_info">
-                    <router-link to="/review/info">审稿人信息</router-link>
+                <template #title>流程管理</template>
+                <a-menu-item key="get_paper_test_status">
+                    <router-link to="/admin/get_paper_test_status">论文查重检测</router-link>
                 </a-menu-item>
-                <a-menu-item key="review_hall">
-                    <router-link to="/review/hall">审稿大厅</router-link>
+                <a-menu-item key="forward_presentation_results">
+                    <router-link to="/admin/forward_presentation_results">答辩结果审核</router-link>
                 </a-menu-item>
-                <a-menu-item key="review_log">
-                    <router-link to="/review/log">审稿记录</router-link>
+                <a-menu-item key="forward_degree_application_results">
+                    <router-link to="/admin/forward_degree_application_results">学位申请审核</router-link>
                 </a-menu-item>
             </a-sub-menu>
             <a-sub-menu key="chairman" v-if="user.role == 'chairman'">
@@ -102,6 +102,9 @@ var routeMap: { [key: string]: [string, string]; } = {
     "/student/get_presentation_results": ["student", "student_get_presentation_results"],
     "/student/apply_degree": ["student", "apply_degree"],
     "/student/get_apply_degree_results": ["student", "get_apply_degree_results"],
+    "/admin/forward_degree_application": ["admin", "forward_degree_application"],
+    "/admin/forward_presentation_results": ["admin", "forward_presentation_results"],
+    "/admin/get_paper_test_status": ["admin", "get_paper_test_status"],
     "/submission/my": ["submission", "my_submission"],
     "/submission/rebuttal": ["submission", "my_submission"],
     "/submission/new": ["submission", "new_submission"],
@@ -119,7 +122,7 @@ var routeMap: { [key: string]: [string, string]; } = {
 
 // 定义menu的状态
 const menuState = reactive({
-    rootSubmenuKeys: ['student', 'review', 'chairman'],
+    rootSubmenuKeys: ['student', 'admin', 'chairman'],
     selectedKeys: [routeMap[router.path][1]],
     openKeys: [routeMap[router.path][0]]
 });
