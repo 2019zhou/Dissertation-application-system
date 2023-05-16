@@ -2,6 +2,7 @@ package com.example.sys.service;
 
 import com.example.sys.entity.Pdf;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.apache.ibatis.annotations.Options;
 
 /**
  * <p>
@@ -13,4 +14,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IPdfService extends IService<Pdf> {
 
+    void savePdf(Pdf pdf);
 }

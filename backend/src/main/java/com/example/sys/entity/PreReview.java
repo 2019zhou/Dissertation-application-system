@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
-import java.time.LocalDate;
 
 /**
  * <p>
@@ -12,10 +11,10 @@ import java.time.LocalDate;
  * </p>
  *
  * @author TangZT
- * @since 2023-05-13
+ * @since 2023-05-15
  */
-@TableName("x_scientific")
-public class Scientific implements Serializable {
+@TableName("x_pre_review")
+public class PreReview implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -24,15 +23,13 @@ public class Scientific implements Serializable {
 
     private String userId;
 
-    private String username;
-
     private String title;
 
-    private String journal;
+    private String abstractText;
 
-    private String commitTime;
+    private String paperDirection;
 
-    private String type;
+    private Integer paperPdf;
 
     public Integer getId() {
         return id;
@@ -48,13 +45,6 @@ public class Scientific implements Serializable {
     public void setUserId(String userId) {
         this.userId = userId;
     }
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
     public String getTitle() {
         return title;
     }
@@ -62,38 +52,37 @@ public class Scientific implements Serializable {
     public void setTitle(String title) {
         this.title = title;
     }
-    public String getJournal() {
-        return journal;
+    public String getAbstract() {
+        return abstractText;
     }
 
-    public void setJournal(String journal) {
-        this.journal = journal;
+    public void setAbstract(String abstractText) {
+        this.abstractText = abstractText;
     }
-    public String getCommitTime() {
-        return commitTime;
-    }
-
-    public void setCommitTime(String commitTime) {
-        this.commitTime = commitTime;
-    }
-    public String getType() {
-        return type;
+    public String getPaperDirection() {
+        return paperDirection;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setPaperDirection(String paperDirection) {
+        this.paperDirection = paperDirection;
+    }
+    public Integer getPaperPdf() {
+        return paperPdf;
+    }
+
+    public void setPaperPdf(Integer paperPdf) {
+        this.paperPdf = paperPdf;
     }
 
     @Override
     public String toString() {
-        return "Scientific{" +
+        return "PreReview{" +
             "id=" + id +
             ", userId=" + userId +
-            ", username=" + username +
             ", title=" + title +
-            ", journal=" + journal +
-            ", commitTime=" + commitTime +
-            ", type=" + type +
+            ", abstractText=" + abstractText +
+            ", paperDirection=" + paperDirection +
+            ", paperPdf=" + paperPdf +
         "}";
     }
 }

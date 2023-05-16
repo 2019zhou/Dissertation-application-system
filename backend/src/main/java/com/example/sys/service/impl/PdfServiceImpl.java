@@ -4,6 +4,7 @@ import com.example.sys.entity.Pdf;
 import com.example.sys.mapper.PdfMapper;
 import com.example.sys.service.IPdfService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -17,4 +18,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class PdfServiceImpl extends ServiceImpl<PdfMapper, Pdf> implements IPdfService {
 
+    @Autowired
+    private PdfMapper pdfMapper;
+    @Override
+    public void savePdf(Pdf pdf) {
+        pdfMapper.insertPdf(pdf);
+    }
 }

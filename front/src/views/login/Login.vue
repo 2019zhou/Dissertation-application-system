@@ -63,12 +63,13 @@ const store = userStore();
 
 const onFinish = (values: any) => {
     LoginApi(formState.username, formState.password, formState.remember).then((res: any) => {
-        if (res.errno === 0) {
-            localStorage.setItem('token', res.data['token']);
-            localStorage.setItem('new_login', "true");
-            store.clear()
-            router.push("/");
-        }
+        console.log("res")
+        // if (res.errno === 0) {
+        //     localStorage.setItem('token', res.data['token']);
+        //     localStorage.setItem('new_login', "true");
+        //     store.clear()
+        //     router.push("/");
+        // }
     }).catch((err: any) => {
         console.log(err);
     })

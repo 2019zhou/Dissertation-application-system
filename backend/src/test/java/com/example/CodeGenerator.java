@@ -19,7 +19,7 @@ public class CodeGenerator {
         String password = "iamking888";
         String moduleName = "sys";
         String mapperLocation = "F:\\PostGraduate1_2\\conference_system\\git_code\\backend\\backend\\src\\main\\resources\\mapper\\" + moduleName;
-        String tables = "x_user,x_paper,x_scientific,x_pdf,x_blind_review";
+        String tables = "x_defense_appl";
         FastAutoGenerator.create(url, username, password)
                 .globalConfig(builder -> {
                     builder.author("TangZT") // 设置作者

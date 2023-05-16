@@ -31,6 +31,7 @@ public class UserController {
     }
 
     @GetMapping("/GetRole")
+    @CrossOrigin
     public Result<Map<String, Object>> getRole(@RequestParam("id") String id){
         Map<String, Object> data = userService.getRole(id);
         if(data != null){
@@ -40,6 +41,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
+    @CrossOrigin
     public Result<Map<String, Object>> login(@RequestBody User user){
         Map<String, Object> data = userService.login(user);
         if(data != null){
