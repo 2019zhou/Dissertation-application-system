@@ -62,6 +62,7 @@
   </template>
   
 <script lang="ts">
+import { UpdatePersonalInfo} from '@/request/api'
   export default {
     data() {
       return {
@@ -80,6 +81,14 @@
     },
     methods: {
       handleSubmit() {
+        console.log(this.form.studentId)
+        UpdatePersonalInfo(this.form.studentId, this.form.name, this.form.department, this.form.college, this.form.length_of_schooling, this.form.research_direction, this.form.political_status, this.form.phone, this.form.mail).then((res:any)=>{
+          if(res.message == "success"){
+            console.log("更新成功")
+          }else{
+            console.log(res)
+          }
+        })
         // this.$refs.form.validate((valid) => {
         //   if (valid) {
         //     console.log('表单校验通过');
@@ -90,7 +99,6 @@
         //     return false;
         //   }
         // });
-        console.log("log")
       },
     },
   };

@@ -1,9 +1,25 @@
 import instance from "./request"
 
 // 登录接口
-export const LoginApi = (id: string, password: string) => instance.post('/api/login', { id: id, password: password})
+export const LoginApi = (id: string, password: string) => instance.post('/api/login', { id: id, password: password })
+//获取当前角色的借口
+export const GetRole = (id: string) => instance.get('/api/GetRole?id=' + id)
 
 
+// 更新当前用户信息接口
+export const UpdatePersonalInfo = (id: string, username: string, faculty: string, department: string, academicSystem: string, researchDirection: string, politicalStatus: string, phone: string, mail: string) => instance.post('/api/UpdatePersonalInfo', { id: id, username: username, faculty: faculty, academicSystem: academicSystem, researchDirection: researchDirection, politicalStatus: politicalStatus})
+
+// {
+//     "id": "000",
+//     "username": "000000",
+//     "faculty": "",
+//     "department": "",
+//     "academicSystem": "", 
+//     "researchDirection": "", 
+//     "politicalStatus": "", 
+//     "phone": "18917304018", 
+//     "mail": "ttt0630@qq.com"
+//  }
 
 
 
@@ -22,7 +38,7 @@ export const ForgetApi = (username: string, password: string, email: string, cod
 // 根据邮箱获取用户信息
 export const GetUserByEmailApi = (email: string) => instance.get('/api/getUserByEmail?email=' + email)
 // 提交论文
-export const SubmitPaperApi = (token: string, title: string, abstracts: string, expertise: string,keywords:string, collaborators: string, paper: string) => instance.post('/api/submitPaper', { token: token, title: title, abstracts: abstracts, expertise: expertise, keywords:keywords,collaborators: collaborators, paper: paper })
+export const SubmitPaperApi = (token: string, title: string, abstracts: string, expertise: string, keywords: string, collaborators: string, paper: string) => instance.post('/api/submitPaper', { token: token, title: title, abstracts: abstracts, expertise: expertise, keywords: keywords, collaborators: collaborators, paper: paper })
 // 获取全部论文
 export const GetPapersApi = () => instance.get('/api/getPapers')
 // 获取全部论文及负责的审稿人信息

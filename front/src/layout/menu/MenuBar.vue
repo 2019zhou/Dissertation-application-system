@@ -8,7 +8,7 @@
       theme="dark"
       @openChange="onOpenChange"
     >
-      <a-sub-menu key="student" v-if="user.role != 'student'">
+      <a-sub-menu key="student" v-if="role == 'student'">
         <template #icon>
           <form-outlined />
         </template>
@@ -42,7 +42,7 @@
           >
         </a-menu-item>
       </a-sub-menu>
-      <a-sub-menu key="admin" v-if="user.role != 'researcher'">
+      <a-sub-menu key="admin" v-if="role == 'manager'">
         <template #icon>
           <file-search-outlined />
         </template>
@@ -83,8 +83,9 @@ import { userStore } from "@/store/user";
 import { useRoute } from "vue-router";
 
 // 获取用户信息
-const store = userStore();
-const user = store.getState;
+// const store = userStore();
+// const user = store.getState;
+const role = localStorage.getItem("role")
 
 // 获取路由
 const router = useRoute();
@@ -109,19 +110,6 @@ var routeMap: { [key: string]: [string, string] } = {
   ],
   "/admin/get_paper_test_status": ["admin", "get_paper_test_status"],
   "/admin/submit_reviews": ["admin", "submit_reviews"],
-  "/submission/my": ["submission", "my_submission"],
-  "/submission/rebuttal": ["submission", "my_submission"],
-  "/submission/new": ["submission", "new_submission"],
-  "/review/info": ["review", "review_info"],
-  "/review/hall": ["review", "review_hall"],
-  "/review/log": ["review", "review_log"],
-  "/review/review": ["review", "review_log"],
-  "/review/edit": ["review", "review_log"],
-  "/chairman/index": ["chairman", "chairman_index"],
-  "/chairman/manage/user": ["chairman", "chairman_manage_user"],
-  "/chairman/manage/paper": ["chairman", "chairman_manage_paper"],
-  "/chairman/manage/expertise": ["chairman", "chairman_manage_expertise"],
-  "/chairman/review": ["chairman", "chairman_manage_paper"],
 };
 
 // 定义menu的状态

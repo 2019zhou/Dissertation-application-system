@@ -43,11 +43,13 @@
     </div>
 </template>
 <script setup lang="ts">
-import { useRouter } from 'vue-router';
+import { createRouterMatcher, useRouter } from 'vue-router';
 import { userStore } from '@/store/user';
 import { reactive, computed } from 'vue';
 import { UserOutlined, LockOutlined, ConsoleSqlOutlined } from '@ant-design/icons-vue';
-import { LoginApi } from '@/request/api'
+import { LoginApi, GetRole} from '@/request/api'
+import { getBeforeSelectionText } from 'ant-design-vue/lib/vc-mentions/src/util';
+import { dataTool } from 'echarts';
 interface FormState {
     username: string;
     password: string;
@@ -62,13 +64,24 @@ const store = userStore();
 const onFinish = (values: any) => {
     LoginApi(formState.username, formState.password).then((res: any) => {
         console.log(res.message)
-        console.log("ddd")
-        // if (res.errno === 0) {
-        //     localStorage.setItem('token', res.data['token']);
-        //     localStorage.setItem('new_login', "true");
-        //     store.clear()
-        //     router.push("/");
-        // }
+        if (res.message == "success") {
+            localStorage.setItem('token', res.data['token']);
+            localStorage.setItem('id', formState.username)
+            localStorage.setItem('new_login', "true");
+            
+            store.clear();
+            // store.setState()
+            // import { userStore } from '@/store/user'
+            GetRole(formState.username).then((ress: any) =>{
+                localStorage.setItem('role', ress.data.role)
+                console.log(ress.data.role)
+                if(ress.data.role == "student"){
+                    router.push("/student/personal_info");
+                }else{
+                    router.push("/admin/get_paper_test_status")
+                }
+            })   
+        }
     }).catch((err: any) => {
         console.log(err);
     })
