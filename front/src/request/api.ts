@@ -1,7 +1,12 @@
 import instance from "./request"
 
 // 登录接口
-export const LoginApi = (username: string, password: string, remember: boolean) => instance.post('/api/login', { username: username, password: password, remember: remember })
+export const LoginApi = (id: string, password: string) => instance.post('/api/login', { id: id, password: password})
+
+
+
+
+
 // 获取当前登录用户的信息
 export const GetUserByTokenApi = (token: string) => instance.post('/api/getUserByToken', { token: token })
 // 获取邮箱验证码

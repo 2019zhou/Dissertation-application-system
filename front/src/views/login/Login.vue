@@ -46,24 +46,23 @@
 import { useRouter } from 'vue-router';
 import { userStore } from '@/store/user';
 import { reactive, computed } from 'vue';
-import { UserOutlined, LockOutlined } from '@ant-design/icons-vue';
+import { UserOutlined, LockOutlined, ConsoleSqlOutlined } from '@ant-design/icons-vue';
 import { LoginApi } from '@/request/api'
 interface FormState {
     username: string;
     password: string;
-    remember: boolean;
 }
 const formState = reactive<FormState>({
     username: '',
-    password: '',
-    remember: true,
+    password: ''
 });
 const router = useRouter();
 const store = userStore();
 
 const onFinish = (values: any) => {
-    LoginApi(formState.username, formState.password, formState.remember).then((res: any) => {
-        console.log("res")
+    LoginApi(formState.username, formState.password).then((res: any) => {
+        console.log(res.message)
+        console.log("ddd")
         // if (res.errno === 0) {
         //     localStorage.setItem('token', res.data['token']);
         //     localStorage.setItem('new_login', "true");

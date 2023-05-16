@@ -4,7 +4,7 @@ server:
 spring:
   datasource:
     username: root
-    password: '@mecomeon'
+    password: 'gaohf19951030'
     url: jdbc:mysql://localhost:3306/conference_system
 
   redis:

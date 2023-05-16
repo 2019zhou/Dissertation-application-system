@@ -11,26 +11,9 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/login/Login.vue')
     },
     {
-        path: '/register',
-        name: 'register',
-        component: () => import('@/views/login/Register.vue')
-    },
-    {
         path: '/forget',
         name: 'forget',
         component: () => import('@/views/login/Forget.vue')
-    },
-    {
-        path: '/publicity',
-        name: 'publicity',
-        component: Layout,
-        meta: {},
-        children: [{
-            path: '/publicity/accept_paper',
-            name: 'publicity_accept_paper',
-            component: () => import('@/views/publicity/accept_paper.vue'),
-            meta: {}
-        }]
     },
     {
         path: '/student',
