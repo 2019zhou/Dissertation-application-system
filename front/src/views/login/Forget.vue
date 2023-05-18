@@ -12,7 +12,7 @@
                 </a-form-item>
 
                 <a-form-item name="password"
-                    :rules="[{ required: true, message: '请输入密码!' }, { min: 6, message: '密码最短6位' }]">
+                    :rules="[{ required: true, message: '请输入密码!' }">
                     <a-input-password v-model:value="formState.password" placeholder="密码" />
                 </a-form-item>
                 

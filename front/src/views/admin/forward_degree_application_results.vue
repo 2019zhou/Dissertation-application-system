@@ -1,99 +1,143 @@
+
 <template>
-    <a-table :columns="columns" :data-source="data">
-      <template #headerCell="{ column }">
-        <template v-if="column.key === 'name'">
-            学生姓名
-        </template>
+  <a-table bordered :data-source="dataSource" :columns="columns">
+    <template #bodyCell="{ column, text, record }">
+      <template v-if="column.dataIndex === 'decision'">
+        <div class="editable-cell">
+          <div v-if="editableData[record.key]" class="editable-cell-input-wrapper">
+            <a-input v-model:value="editableData[record.key].decision" @pressEnter="save(record.key)" />
+            <check-outlined class="editable-cell-icon-check" @click="save(record.key)" />
+          </div>
+          <div v-else class="editable-cell-text-wrapper">
+            {{ text || ' ' }}
+            <edit-outlined class="editable-cell-icon" @click="edit(record.key)" />
+          </div>
+        </div>
       </template>
-      <template #bodyCell="{ column, record }">
-        <template v-if="column.key === 'name'">
-          <a>
-            {{ record.name }}
-          </a>
-        </template>
-        <template v-else-if="column.key === 'tags'">
-          <span>
-            <a-tag
-              v-for="tag in record.tags"
-              :key="tag"
-              :color="tag === 'loser' ? 'volcano' : tag.length > 5 ? 'geekblue' : 'green'"
-            >
-              {{ tag.toUpperCase() }}
-            </a-tag>
-          </span>
-        </template>
-        <template v-else-if="column.key === 'action'">
-          <span>
-            <a>更改</a>
-            <a-divider type="vertical" />
-            <a>通知学生</a>
-            <a-divider type="vertical" />
-          </span>
-        </template>
+      <template v-else-if="column.dataIndex === 'operation'">
+         <a @click="edit(record.key)">编辑 | </a>
+         <a @click="infostu">告知学生</a>
       </template>
-    </a-table>
-  </template>
-  <script lang="ts">
-  import { SmileOutlined, DownOutlined } from '@ant-design/icons-vue';
-  import { defineComponent } from 'vue';
-  const columns = [
-    {
-      name: '姓名',
-      dataIndex: 'name',
-      key: 'name',
+    </template>
+  </a-table>
+</template>
+<script lang="ts">
+import { computed, defineComponent, reactive, ref } from 'vue';
+import type { Ref, UnwrapRef } from 'vue';
+import { CheckOutlined, EditOutlined } from '@ant-design/icons-vue';
+import { cloneDeep } from 'lodash-es';
+
+interface DataItem {
+  key: string;
+  name: string;
+  id: string;
+  decision: string;
+}
+
+export default defineComponent({
+  components: {
+    CheckOutlined,
+    EditOutlined,
+  },
+  setup() {
+    const columns = [
+      {
+        name: '学生姓名',
+        dataIndex: 'name',
+      },
+      {
+        title: '学号',
+        dataIndex: 'id',
+      },
+      {
+        title: '评审决定',
+        dataIndex: 'decision',
+      },
+      {
+        title: '操作',
+        dataIndex: 'operation',
+      },
+    ];
+    const dataSource: Ref<DataItem[]> = ref([
+      {
+        key: '0',
+        name: 'tangtang',
+        id: '51255902041',
+        decision: '通过',
+      },
+    ]);
+    const count = computed(() => dataSource.value.length + 1);
+    const editableData: UnwrapRef<Record<string, DataItem>> = reactive({});
+
+    const edit = (key: string) => {
+      editableData[key] = cloneDeep(dataSource.value.filter(item => key === item.key)[0]);
+    };
+    const save = (key: string) => {
+      Object.assign(dataSource.value.filter(item => key === item.key)[0], editableData[key]);
+      localStorage.setItem("stage", '2')
+      delete editableData[key];
+    };
+
+    const onDelete = (key: string) => {
+      dataSource.value = dataSource.value.filter(item => item.key !== key);
+    };
+    return {
+      columns,
+      onDelete,
+      dataSource,
+      editableData,
+      count,
+      edit,
+      save,
+    };
+  },
+  methods: {
+    infostu(){
+      localStorage.setItem("stage", '6')
+    }
     },
-    {
-      title: '学号',
-      dataIndex: 'age',
-      key: 'age',
-    },
-    {
-      title: '评审决定',
-      dataIndex: 'decision',
-      key: 'decision',
-    },
-    {
-      title: '操作',
-      key: 'action',
-    },
-  ];
-  
-  const data = [
-    {
-      key: '1',
-      name: 'John Brown',
-      age: 32,
-      address: 'New York No. 1 Lake Park',
-      tags: ['nice', 'developer'],
-    },
-    {
-      key: '2',
-      name: 'Jim Green',
-      age: 42,
-      address: 'London No. 1 Lake Park',
-      tags: ['loser'],
-    },
-    {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sidney No. 1 Lake Park',
-      tags: ['cool', 'teacher'],
-    },
-  ];
-  
-  export default defineComponent({
-    components: {
-      SmileOutlined,
-      DownOutlined,
-    },
-    setup() {
-      return {
-        data,
-        columns,
-      };
-    },
-  });
-  </script>
-  
-  
+});
+</script>
+<style lang="less">
+.editable-cell {
+  position: relative;
+  .editable-cell-input-wrapper,
+  .editable-cell-text-wrapper {
+    padding-right: 24px;
+  }
+
+  .editable-cell-text-wrapper {
+    padding: 5px 24px 5px 5px;
+  }
+
+  .editable-cell-icon,
+  .editable-cell-icon-check {
+    position: absolute;
+    right: 0;
+    width: 20px;
+    cursor: pointer;
+  }
+
+  .editable-cell-icon {
+    margin-top: 4px;
+    display: none;
+  }
+
+  .editable-cell-icon-check {
+    line-height: 28px;
+  }
+
+  .editable-cell-icon:hover,
+  .editable-cell-icon-check:hover {
+    color: #108ee9;
+  }
+
+  .editable-add-btn {
+    margin-bottom: 8px;
+  }
+}
+.editable-cell:hover .editable-cell-icon {
+  display: inline-block;
+}
+</style>
+

@@ -1,5 +1,5 @@
 <template>
-  <a-form :form="form" @submit="handleSubmit">
+  <a-form :form="form" v-if="loading" @submit="handleSubmit">
     <a-row :gutter="24">
       <a-col :span="12">
         <a-form-item label="论文题目" prop="name">
@@ -82,6 +82,9 @@
         <a-button type="primary" @click="handleSubmit">更新答辩申请</a-button>
       </a-form-item>
   </a-form>
+  <p v-if="!loading">
+  <h3> 尚未到达此阶段</h3>
+  </p>
 </template>
   
   <script lang="ts">
@@ -114,12 +117,27 @@ export default {
         director3_affiliation: "",
         director3_title: "",
       },
+      loading: false
     };
+  },
+  mounted() {
+    this.getDataFromLocalStorage();
   },
   methods: {
     handleSubmit() {
+      localStorage.setItem('stage', '3')
       console.log("提交的表单数据：", this.form);
     },
+    getDataFromLocalStorage() {
+      // 从 localStorage 中获取值
+      const st = localStorage.getItem('stage');
+      // 判断是否存在值并进行相应处理
+      if(st && st >= '2'){
+        this.loading = true;
+      }else{
+        this.loading = false;
+      }
+    }
   },
 };
 </script>

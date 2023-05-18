@@ -1,36 +1,24 @@
 <template>
-  <a-table :columns="columns" :data-source="data">
+  <a-table :columns="columns" :data-source="data2">
     <template #headerCell="{ column }">
       <template v-if="column.key === 'name'">
         <span>
-          <smile-outlined />
           学生姓名
         </span>
       </template>
     </template>
 
     <template #bodyCell="{ column, record }">
-      <template v-if="column.key === 'name'">
+      <template v-if="column.key === 'results'">
         <a>
-          {{ record.name }}
+          {{ randomNumber}} %
         </a>
-      </template>
-      <template v-else-if="column.key === 'tags'">
-        <span>
-          <a-tag
-            v-for="tag in record.tags"
-            :key="tag"
-            :color="tag === 'loser' ? 'volcano' : tag.length > 5 ? 'geekblue' : 'green'"
-          >
-            {{ tag.toUpperCase() }}
-          </a-tag>
-        </span>
       </template>
       <template v-else-if="column.key === 'action'">
         <span>
-          <a>论文重复率检测 一 {{ record.name }}</a>
+          <a @click="generateRate">论文重复率检测</a>
           <a-divider type="vertical" />
-          <a>Foward</a>
+          <a>告知学生</a>
           <a-divider type="vertical" />
         </span>
       </template>
@@ -38,8 +26,9 @@
   </a-table>
 </template>
 <script lang="ts">
-import { SmileOutlined, DownOutlined } from '@ant-design/icons-vue';
+import { SmileOutlined, DownOutlined, VideoCameraOutlined } from '@ant-design/icons-vue';
 import { defineComponent } from 'vue';
+import { string } from 'vue-types';
 const columns = [
   {
     name: 'Name',
@@ -48,8 +37,8 @@ const columns = [
   },
   {
     title: '学号',
-    dataIndex: 'age',
-    key: 'age',
+    dataIndex: 'id',
+    key: 'id',
   },
   {
     title: '论文题目',
@@ -57,8 +46,8 @@ const columns = [
     key: 'dissertation_name',
   },
   {
-    title: '盲审结果',
-    key: 'result',
+    title: '查重检测',
+    key: 'results',
     dataIndex: 'results',
   },
   {
@@ -67,27 +56,13 @@ const columns = [
   },
 ];
 
-const data = [
+const data2 = [
   {
     key: '1',
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
-    tags: ['nice', 'developer'],
-  },
-  {
-    key: '2',
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-    tags: ['loser'],
-  },
-  {
-    key: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park',
-    tags: ['cool', 'teacher'],
+    name: 'tangtang',
+    id: 51255902041,
+    dissertation_name: 'aaa',
+    results: '',
   },
 ];
 
@@ -96,9 +71,20 @@ export default defineComponent({
     SmileOutlined,
     DownOutlined,
   },
+  data() {
+    return {
+      randomNumber: ''
+    };
+  },
+  methods: {
+    generateRate(){
+      this.randomNumber = Math.floor(Math.random() * 15 + 1).toString();
+      console.log("dddd");
+    }
+  },
   setup() {
     return {
-      data,
+      data2,
       columns,
     };
   },

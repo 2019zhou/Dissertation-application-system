@@ -2,15 +2,22 @@
     <a-form
       :model="formState"
       v-bind="layout"
+      v-if="loading"
       name="nest-messages"
       @finish="onFinish"
       :label-col="{ span: 6 }"
       :wrapper-col="{ span: 12 }"
     >
-      <a-form-item :name="['user', 'name']" label="论文题目" >
-        <a-input v-model:value="formState.user.name"  disabled/>
-      </a-form-item>
-      <a-form-item :wrapper-col="{ ...layout.wrapperCol, offset: 6}">
+      <!-- <a-form-item :name="['user', 'name']" label="论文题目" >
+        {{ paperTitle }}
+      </a-form-item> -->
+      <div class="text-container">
+    <a-card class="text-card" :title="paperTitle">
+      <!-- <span class="text-content">{{ paperTitle }}</span> -->
+    </a-card>
+  </div>
+  <br>
+    <a-form-item :wrapper-col="{ ...layout.wrapperCol, offset: 9}">
       <a-upload
         v-model:file-list="fileList"
         name="file"
@@ -24,23 +31,64 @@
         </a-button>
       </a-upload>
     </a-form-item>
-      <a-form-item :wrapper-col="{ ...layout.wrapperCol, offset: 6}">
-        <a-button type="primary" html-type="submit">更新学位申请表</a-button>
+      <a-form-item :wrapper-col="{ ...layout.wrapperCol, offset: 9}">
+        <a-button @click="submitapply" type="primary" html-type="submit">更新学位申请表</a-button>
       </a-form-item>
     </a-form>
+    <p v-if="!loading">
+      <h3> 尚未到达此阶段</h3>
+    </p>
   </template>
   
   
-  <script lang="ts">
-  import { InboxOutlined, UploadOutlined } from "@ant-design/icons-vue";
-  import { message } from "ant-design-vue";
-  import { defineComponent, ref, reactive } from "vue";
-  import type { UploadChangeParam } from "ant-design-vue";
-  
+<script lang="ts">
+import { InboxOutlined, UploadOutlined } from "@ant-design/icons-vue";
+import { message } from "ant-design-vue";
+import { defineComponent, ref, reactive } from "vue";
+import type { UploadChangeParam } from "ant-design-vue";
+import {GetPaperTitle} from '@/request/api';
+import { any } from "vue-types";
+
+
   export default defineComponent({
+    data() {
+      return {
+        paperTitle: '',
+        loading: true
+      };
+    },
     components: {
       InboxOutlined,
       UploadOutlined,
+    },
+    mounted() {
+        this.fetchPaperTitle();
+        this.getDataFromLocalStorage();
+    },
+    methods: {
+      submitapply(){
+        localStorage.setItem("stage", '5')
+      },
+      fetchPaperTitle() {
+        const id = localStorage.getItem("id")
+        console.log(id)
+        if(id){
+            GetPaperTitle(id).then((res: any) => {
+            this.paperTitle = res.data.PaperTitle
+            console.log(this.paperTitle)
+          })
+        }
+      },
+      getDataFromLocalStorage() {
+        // 从 localStorage 中获取值
+        const st = localStorage.getItem('stage');
+        // 判断是否存在值并进行相应处理
+        if(st && st >= '4'){
+          this.loading = true;
+        }else{
+          this.loading = false;
+        }
+      }
     },
     setup() {
       const layout = {
@@ -49,13 +97,7 @@
       };
   
       const formState = reactive({
-        user: {
-          name: "",
-          age: undefined,
-          email: "",
-          website: "",
-          introduction: "",
-        },
+        name
       });
       const onFinish = (values: any) => {
         console.log("Success:", values);
@@ -82,7 +124,29 @@
         handleChange,
       };
     },
+    
   });
   </script>
   
-  
+  <style>
+.text-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.text-card {
+  width: 300px;
+  text-align: center;
+}
+
+.text-content {
+  font-size: 20px;
+  display: inline-block;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+</style>

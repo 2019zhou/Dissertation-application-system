@@ -1,18 +1,24 @@
 <template>
-  <a-row>
+  <a-row v-if="loading">
     <a-col :span="24">
       <a-table :columns="columns" :dataSource="data" :pagination="false" />
     </a-col>
   </a-row>
-  <p v-if="isQualified">
+  <p v-if="isQualified && loading">
     <a-result status="success" title="成功通过评审,请进入答辩申请"> </a-result>
   </p>
-  <p v-else>
+  <p v-if="loading && !isQualified">
     <a-result title="没有通过评审"> </a-result>
+  </p>
+  <p v-if="!loading">
+  <h3> 尚未到达此阶段</h3>
   </p>
 </template>
 
+
 <script lang="ts">
+import {GetReviews} from '@/request/api'
+
 export default {
   data() {
     return {
@@ -78,8 +84,34 @@ export default {
         },
       ],
       isQualified: "参加答辩",
+      loading: true,
     };
   },
+  mounted() {
+    this.getDataFromLocalStorage();
+  },
+  methods: {
+    getDataFromLocalStorage() {
+      // 从 localStorage 中获取值
+      const st = localStorage.getItem('stage');
+      // 判断是否存在值并进行相应处理
+      if(st && st >= '2'){
+        this.loading = true;
+      }else{
+        this.loading = false;
+      }
+    },
+    // getReviews(){
+    //   GetReviews('51255902041').then((res:any) =>{
+    //     if(res.message == "success"){
+    //       datas = 
+    //       this.data.push({res.data.reviewSugs[0].id})
+    //     }
+    //   }
+    //   )
+    // }
+  }
+  
   //   methods: {
   //     checkScore() {
   //       const totalScore = 80// 根据实际情况计算总分数
@@ -93,3 +125,5 @@ export default {
 };
 </script>
   
+
+

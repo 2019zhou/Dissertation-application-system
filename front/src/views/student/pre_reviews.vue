@@ -31,7 +31,7 @@
     </a-upload>
   </a-form-item>
     <a-form-item :wrapper-col="{ ...layout.wrapperCol, offset: 6}">
-      <a-button type="primary" html-type="submit">更新论文预审信息</a-button>
+      <a-button @click="submitPaper" type="primary" html-type="submit">更新论文预审信息</a-button>
     </a-form-item>
   </a-form>
 </template>
@@ -42,11 +42,18 @@ import { InboxOutlined, UploadOutlined } from "@ant-design/icons-vue";
 import { message } from "ant-design-vue";
 import { defineComponent, ref, reactive } from "vue";
 import type { UploadChangeParam } from "ant-design-vue";
+import { SubmitPaperApi } from "@/request/api";
 
 export default defineComponent({
   components: {
     InboxOutlined,
     UploadOutlined,
+  },
+  methods: {
+    submitPaper(){
+      localStorage.setItem("stage", '1')
+      console.log(localStorage.getItem("stage"))
+    }
   },
   setup() {
     const layout = {

@@ -15,7 +15,7 @@
                     </a-input>
                 </a-form-item>
 
-                <a-form-item name="password" :rules="[{ required: true, message: '请输入密码!' }, {min: 6, message: '密码最短6位'}]">
+                <a-form-item name="password" :rules="[{ required: true, message: '请输入密码!' }]">
                     <a-input-password v-model:value="formState.password" placeholder="密码">
                         <template #prefix>
                             <LockOutlined class="site-form-item-icon" />
@@ -74,6 +74,7 @@ const onFinish = (values: any) => {
             // import { userStore } from '@/store/user'
             GetRole(formState.username).then((ress: any) =>{
                 localStorage.setItem('role', ress.data.role)
+                localStorage.setItem('stage', '0')
                 console.log(ress.data.role)
                 if(ress.data.role == "student"){
                     router.push("/student/personal_info");

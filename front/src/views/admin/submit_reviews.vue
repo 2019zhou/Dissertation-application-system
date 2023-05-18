@@ -1,138 +1,230 @@
 <template>
-  <a-table :columns="columns" :data-source="dataSource" bordered>
+  <a-button class="editable-add-btn" style="margin-bottom: 8px" @click="handleAdd">增加</a-button>
+  <a-table bordered :data-source="dataSource" :columns="columns">
     <template #bodyCell="{ column, text, record }">
-      <template v-if="['name', 'student_id', 'indicator1', 'indicator2', 'indicator3', 'indicator4', 'overallscore'].includes(column.dataIndex)">
-        <div>
-          <a-input
-            v-if="editableData[record.key]"
-            v-model:value="editableData[record.key][column.dataIndex]"
-            style="margin: -5px 0"
-          />
-          <template v-else>
-            {{ text }}
-          </template>
+      <template v-if="column.dataIndex === 'indicator1'">
+        <div class="editable-cell">
+          <div v-if="editableData[record.key]" class="editable-cell-input-wrapper">
+            <a-input v-model:value="editableData[record.key].indicator1" @pressEnter="save(record.key)" />
+            <check-outlined class="editable-cell-icon-check" @click="save(record.key)" />
+          </div>
+          <div v-else class="editable-cell-text-wrapper">
+            {{ text || ' ' }}
+            <edit-outlined class="editable-cell-icon" @click="edit(record.key)" />
+          </div>
+        </div>
+      </template>
+      <template v-if="column.dataIndex === 'indicator2'">
+        <div class="editable-cell">
+          <div v-if="editableData[record.key]" class="editable-cell-input-wrapper">
+            <a-input v-model:value="editableData[record.key].indicator2" @pressEnter="save(record.key)" />
+            <check-outlined class="editable-cell-icon-check" @click="save(record.key)" />
+          </div>
+          <div v-else class="editable-cell-text-wrapper">
+            {{ text || ' ' }}
+            <edit-outlined class="editable-cell-icon" @click="edit(record.key)" />
+          </div>
+        </div>
+      </template>
+      <template v-if="column.dataIndex === 'indicator3'">
+        <div class="editable-cell">
+          <div v-if="editableData[record.key]" class="editable-cell-input-wrapper">
+            <a-input v-model:value="editableData[record.key].indicator3" @pressEnter="save(record.key)" />
+            <check-outlined class="editable-cell-icon-check" @click="save(record.key)" />
+          </div>
+          <div v-else class="editable-cell-text-wrapper">
+            {{ text || ' ' }}
+            <edit-outlined class="editable-cell-icon" @click="edit(record.key)" />
+          </div>
+        </div>
+      </template>
+      <template v-if="column.dataIndex === 'indicator4'">
+        <div class="editable-cell">
+          <div v-if="editableData[record.key]" class="editable-cell-input-wrapper">
+            <a-input v-model:value="editableData[record.key].indicator4" @pressEnter="save(record.key)" />
+            <check-outlined class="editable-cell-icon-check" @click="save(record.key)" />
+          </div>
+          <div v-else class="editable-cell-text-wrapper">
+            {{ text || ' ' }}
+            <edit-outlined class="editable-cell-icon" @click="edit(record.key)" />
+          </div>
+        </div>
+      </template>
+      <template v-if="column.dataIndex === 'overallscore'">
+        <div class="editable-cell">
+          <div v-if="editableData[record.key]" class="editable-cell-input-wrapper">
+            <a-input v-model:value="editableData[record.key].overallscore" @pressEnter="save(record.key)" />
+            <check-outlined class="editable-cell-icon-check" @click="save(record.key)" />
+          </div>
+          <div v-else class="editable-cell-text-wrapper">
+            {{ text || ' ' }}
+            <edit-outlined class="editable-cell-icon" @click="edit(record.key)" />
+          </div>
         </div>
       </template>
       <template v-else-if="column.dataIndex === 'operation'">
-        <div class="editable-row-operations">
-          <span v-if="editableData[record.key]">
-            <a-typography-link @click="save(record.key)"
-              >Save</a-typography-link
-            >
-            <a-popconfirm title="Sure to cancel?" @confirm="cancel(record.key)">
-              <a>Cancel</a>
-            </a-popconfirm>
-          </span>
-          <span v-else>
-            <a @click="edit(record.key)">更改</a>
-          </span>
-        </div>
+         <a @click="edit(record.key)">编辑 | </a>
+        <a-popconfirm
+          v-if="dataSource.length"
+          title="确认删除?"
+          @confirm="onDelete(record.key)"
+        >
+          <a>删除</a>
+        </a-popconfirm>
       </template>
     </template>
   </a-table>
 </template>
-  <script lang="ts">
-import { cloneDeep } from "lodash-es";
-import { defineComponent, reactive, ref } from "vue";
-import type { UnwrapRef } from "vue";
+<script lang="ts">
+import { computed, defineComponent, reactive, ref } from 'vue';
+import type { Ref, UnwrapRef } from 'vue';
+import { CheckOutlined, EditOutlined } from '@ant-design/icons-vue';
+import { cloneDeep } from 'lodash-es';
 
-const columns = [
-  {
-    title: "姓名",
-    dataIndex: "name",
-    width: "13%",
-  },
-  {
-    title: "学号",
-    dataIndex: "student_id",
-    width: "13%",
-  },
-  {
-    title: "指标1",
-    dataIndex: "indicator1",
-    width: "13%",
-  },
-  {
-    title: "指标2",
-    dataIndex: "indicator2",
-    width: "13%",
-  },
-  {
-    title: "指标3",
-    dataIndex: "indicator3",
-    width: "13%",
-  },
-  {
-    title: "指标4",
-    dataIndex: "indicator4",
-    width: "13%",
-  },
-  {
-    title: "总评",
-    dataIndex: "overallscore",
-    width: "13%",
-  },
-  {
-    title: "operation",
-    dataIndex: "operation",
-  },
-];
 interface DataItem {
+  key: string;
   name: string;
-  student_id: string;
-  indicator1: number;
-  indicator2: number;
-  indicator3: number;
-  indicator4: number;
-  overallscore: number;
+  reviewer: string;
+  indicator1: string;
+  indicator2: string;
+  indicator3: string;
+  indicator4: string;
+  overallscore: string;
 }
-const data: DataItem[] = [];
-for (let i = 0; i < 50; i++) {
-  data.push({
-    name: `小明 ${i}`,
-    student_id: `${i}`,
-    indicator1: 80,
-    indicator2: 80,
-    indicator3: 80,
-    indicator4: 80,
-    overallscore: 80
-  });
-}
+
 export default defineComponent({
+  components: {
+    CheckOutlined,
+    EditOutlined,
+  },
   setup() {
-    const dataSource = ref(data);
+    const columns = [
+      {
+        title: '学生姓名',
+        dataIndex: 'name',
+      },
+      {
+        title: '盲审人',
+        dataIndex: 'reviewer',
+      },
+      {
+        title: '指标1',
+        dataIndex: 'indicator1',
+      },
+      {
+        title: '指标2',
+        dataIndex: 'indicator2',
+      },
+      {
+        title: '指标3',
+        dataIndex: 'indicator3',
+      },
+      {
+        title: '指标4',
+        dataIndex: 'indicator4',
+      },
+      {
+        title: '总分',
+        dataIndex: 'overallscore',
+      },
+      {
+        title: '操作',
+        dataIndex: 'operation',
+      },
+    ];
+    const dataSource: Ref<DataItem[]> = ref([
+      {
+        key: '0',
+        name: 'tangtang',
+        reviewer: '盲审人 1',
+        indicator1: '90',
+        indicator2: '80',
+        indicator3: '90',
+        indicator4: '80',
+        overallscore: '85',
+      },
+    ]);
+    const count = computed(() => dataSource.value.length + 1);
     const editableData: UnwrapRef<Record<string, DataItem>> = reactive({});
 
     const edit = (key: string) => {
-      editableData[key] = cloneDeep(
-        dataSource.value.filter((item) => key === item.key)[0]
-      );
+      editableData[key] = cloneDeep(dataSource.value.filter(item => key === item.key)[0]);
     };
     const save = (key: string) => {
-      Object.assign(
-        dataSource.value.filter((item) => key === item.key)[0],
-        editableData[key]
-      );
+      Object.assign(dataSource.value.filter(item => key === item.key)[0], editableData[key]);
+      localStorage.setItem("stage", '2')
       delete editableData[key];
     };
-    const cancel = (key: string) => {
-      delete editableData[key];
+
+    const onDelete = (key: string) => {
+      dataSource.value = dataSource.value.filter(item => item.key !== key);
     };
+    const handleAdd = () => {
+      const newData = {
+        key: `${count.value}`,
+        name: `tangtang`,
+        reviewer: `盲审人 ${count.value}`,
+        indicator1: `80`,
+        indicator2: `80`,
+        indicator3: `80`,
+        indicator4: `80`,
+        overallscore: `90`,
+      };
+      dataSource.value.push(newData);
+    };
+
     return {
-      dataSource,
       columns,
-      editingKey: "",
+      onDelete,
+      handleAdd,
+      dataSource,
       editableData,
+      count,
       edit,
       save,
-      cancel,
     };
   },
 });
 </script>
-  <style scoped>
-.editable-row-operations a {
-  margin-right: 8px;
+<style lang="less">
+.editable-cell {
+  position: relative;
+  .editable-cell-input-wrapper,
+  .editable-cell-text-wrapper {
+    padding-right: 24px;
+  }
+
+  .editable-cell-text-wrapper {
+    padding: 5px 24px 5px 5px;
+  }
+
+  .editable-cell-icon,
+  .editable-cell-icon-check {
+    position: absolute;
+    right: 0;
+    width: 20px;
+    cursor: pointer;
+  }
+
+  .editable-cell-icon {
+    margin-top: 4px;
+    display: none;
+  }
+
+  .editable-cell-icon-check {
+    line-height: 28px;
+  }
+
+  .editable-cell-icon:hover,
+  .editable-cell-icon-check:hover {
+    color: #108ee9;
+  }
+
+  .editable-add-btn {
+    margin-bottom: 8px;
+  }
+}
+.editable-cell:hover .editable-cell-icon {
+  display: inline-block;
 }
 </style>
-  
