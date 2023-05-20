@@ -15,92 +15,92 @@ const routes: Array<RouteRecordRaw> = [
         name: 'forget',
         component: () => import('@/views/login/Forget.vue')
     },
-    {
-        path: '/student',
-        name: 'student',
-        component: Layout,
-        meta: {},
-        children: [{
-            path: '/student/personal_info',
-            name: 'student_personal_info',
-            component: () => import('@/views/student/personal_info.vue'),
-            meta: {}
-        },
-        {
-            path: '/student/my_research',
-            name: 'student_my_research',
-            component: () => import('@/views/student/my_research.vue'),
-            meta: {}
-        },
-        {
-            path: '/student/pre_reviews',
-            name: 'student_pre_reviews',
-            component: () => import('@/views/student/pre_reviews.vue'),
-            meta: {}
-        },
-        {
-            path: '/student/get_reviews',
-            name: 'student_get_reviews',
-            component: () => import('@/views/student/get_reviews.vue'),
-            meta: {}
-        },
-        {
-            path: '/student/apply_application',
-            name: 'student_apply_application',
-            component: () => import('@/views/student/apply_application.vue'),
-            meta: {}
-        },
-        {
-            path: '/student/get_presentation_results',
-            name: 'student_get_presentation_results',
-            component: () => import('@/views/student/get_presentation_results.vue'),
-            meta: {}
-        },
-        {
-            path: '/student/apply_degree',
-            name: 'student_apply_degree',
-            component: () => import('@/views/student/apply_degree.vue'),
-            meta: {}
-        },
-        {
-            path: '/student/get_apply_degree_results',
-            name: 'student_get_apply_degree_results',
-            component: () => import('@/views/student/get_apply_degree_results.vue'),
-            meta: {}
-        }
-        ]
-    },
-    {
-        path: '/admin',
-        name: 'admin',
-        component: Layout,
-        meta: {},
-        children: [{
-            path: '/admin/get_paper_test_status',
-            name: 'admin_get_paper_test_status',
-            component: () => import('@/views/admin/get_paper_test_status.vue'),
-            meta: {}
-        },
-        {
-            path: '/admin/forward_presentation_results',
-            name: 'admin_forward_presentation_results',
-            component: () => import('@/views/admin/forward_presentation_results.vue'),
-            meta: {}
-        },
-        {
-            path: '/admin/forward_degree_application_results',
-            name: 'admin_forward_degree_application_results',
-            component: () => import('@/views/admin/forward_degree_application_results.vue'),
-            meta: {}
-        },
-        {
-            path: '/admin/submit_reviews',
-            name: 'admin_submit_reviews',
-            component: () => import('@/views/admin/submit_reviews.vue'),
-            meta: {}
-        }
-        ]
-    }
+    // {
+    //     path: '/student',
+    //     name: 'student',
+    //     component: Layout,
+    //     meta: {},
+    //     children: [{
+    //         path: '/student/personal_info',
+    //         name: 'student_personal_info',
+    //         component: () => import('@/views/student/personal_info.vue'),
+    //         meta: {}
+    //     },
+    //     {
+    //         path: '/student/my_research',
+    //         name: 'student_my_research',
+    //         component: () => import('@/views/student/my_research.vue'),
+    //         meta: {}
+    //     },
+    //     {
+    //         path: '/student/pre_reviews',
+    //         name: 'student_pre_reviews',
+    //         component: () => import('@/views/student/pre_reviews.vue'),
+    //         meta: {}
+    //     },
+    //     {
+    //         path: '/student/get_reviews',
+    //         name: 'student_get_reviews',
+    //         component: () => import('@/views/student/get_reviews.vue'),
+    //         meta: {}
+    //     },
+    //     {
+    //         path: '/student/apply_application',
+    //         name: 'student_apply_application',
+    //         component: () => import('@/views/student/apply_application.vue'),
+    //         meta: {}
+    //     },
+    //     {
+    //         path: '/student/get_presentation_results',
+    //         name: 'student_get_presentation_results',
+    //         component: () => import('@/views/student/get_presentation_results.vue'),
+    //         meta: {}
+    //     },
+    //     {
+    //         path: '/student/apply_degree',
+    //         name: 'student_apply_degree',
+    //         component: () => import('@/views/student/apply_degree.vue'),
+    //         meta: {}
+    //     },
+    //     {
+    //         path: '/student/get_apply_degree_results',
+    //         name: 'student_get_apply_degree_results',
+    //         component: () => import('@/views/student/get_apply_degree_results.vue'),
+    //         meta: {}
+    //     }
+    //     ]
+    // },
+    // {
+    //     path: '/admin',
+    //     name: 'admin',
+    //     component: Layout,
+    //     meta: {},
+    //     children: [{
+    //         path: '/admin/get_paper_test_status',
+    //         name: 'admin_get_paper_test_status',
+    //         component: () => import('@/views/admin/get_paper_test_status.vue'),
+    //         meta: {}
+    //     },
+    //     {
+    //         path: '/admin/forward_presentation_results',
+    //         name: 'admin_forward_presentation_results',
+    //         component: () => import('@/views/admin/forward_presentation_results.vue'),
+    //         meta: {}
+    //     },
+    //     {
+    //         path: '/admin/forward_degree_application_results',
+    //         name: 'admin_forward_degree_application_results',
+    //         component: () => import('@/views/admin/forward_degree_application_results.vue'),
+    //         meta: {}
+    //     },
+    //     {
+    //         path: '/admin/submit_reviews',
+    //         name: 'admin_submit_reviews',
+    //         component: () => import('@/views/admin/submit_reviews.vue'),
+    //         meta: {}
+    //     }
+    //     ]
+    // }
 ]
 
 const router = createRouter({
@@ -110,120 +110,115 @@ const router = createRouter({
 
 
 // 路由守卫
-// router.beforeEach((to, from, next) => {
-//     const store = userStore();
-//     const token = localStorage.getItem('token');
-//     const id = JSON.parse(localStorage.getItem('id') || '0')
-//     const new_login = localStorage.getItem('new_login') !== null;
-//     if (new_login) {
-//         localStorage.removeItem("new_login");
-//     }
-//     if (to.fullPath == '/login' || to.fullPath == '/forget') next();
-//     else if (token) {
-//         GetRole(id).then((res: any) => {
-//             if(res.data.role == "student"){
-//                 router.addRoute({
-//                     path: '/student',
-//                     name: 'student',
-//                     component: Layout,
-//                     meta: {},
-//                     children: [{
-//                         path: '/student/personal_info',
-//                         name: 'student_personal_info',
-//                         component: () => import('@/views/student/personal_info.vue'),
-//                         meta: {}
-//                     },
-//                     {
-//                         path: '/student/my_research',
-//                         name: 'student_my_research',
-//                         component: () => import('@/views/student/my_research.vue'),
-//                         meta: {}
-//                     },
-//                     {
-//                         path: '/student/pre_reviews',
-//                         name: 'student_pre_reviews',
-//                         component: () => import('@/views/student/pre_reviews.vue'),
-//                         meta: {}
-//                     },
-//                     {
-//                         path: '/student/get_reviews',
-//                         name: 'student_get_reviews',
-//                         component: () => import('@/views/student/get_reviews.vue'),
-//                         meta: {}
-//                     },
-//                     {
-//                         path: '/student/apply_application',
-//                         name: 'student_apply_application',
-//                         component: () => import('@/views/student/apply_application.vue'),
-//                         meta: {}
-//                     },
-//                     {
-//                         path: '/student/get_presentation_results',
-//                         name: 'student_get_presentation_results',
-//                         component: () => import('@/views/student/get_presentation_results.vue'),
-//                         meta: {}
-//                     },
-//                     {
-//                         path: '/student/apply_degree',
-//                         name: 'student_apply_degree',
-//                         component: () => import('@/views/student/apply_degree.vue'),
-//                         meta: {}
-//                     },
-//                     {
-//                         path: '/student/get_apply_degree_results',
-//                         name: 'student_get_apply_degree_results',
-//                         component: () => import('@/views/student/get_apply_degree_results.vue'),
-//                         meta: {}
-//                     }
-//                     ]
-//                 })
-//                 router.addRoute({
-//                     path: '/',
-//                     name: 'Home',
-//                     redirect: '/student/personal_info'
-//                 })
-//                 to.fullPath = '/student/personal_info'
-//                 next(to.fullPath);
-//             }else if(res.data.role == "manager"){
-//                 to.fullPath = '/admin/get_paper_test_status'
-//                 router.addRoute({
-//                     path: '/admin',
-//                     name: 'admin',
-//                     component: Layout,
-//                     meta: {},
-//                     children: [{
-//                         path: '/admin/get_paper_test_status',
-//                         name: 'admin_get_paper_test_status',
-//                         component: () => import('@/views/admin/get_paper_test_status.vue'),
-//                         meta: {}
-//                     },
-//                     {
-//                         path: '/admin/forward_presentation_results',
-//                         name: 'admin_forward_presentation_results',
-//                         component: () => import('@/views/admin/forward_presentation_results.vue'),
-//                         meta: {}
-//                     },
-//                     {
-//                         path: '/admin/forward_degree_application_results',
-//                         name: 'admin_forward_degree_application_results',
-//                         component: () => import('@/views/admin/forward_degree_application_results.vue'),
-//                         meta: {}
-//                     },
-//                     {
-//                         path: '/admin/submit_reviews',
-//                         name: 'admin_submit_reviews',
-//                         component: () => import('@/views/admin/submit_reviews.vue'),
-//                         meta: {}
-//                     }]
-//                 })
-//                 next(to.fullPath);
-//             }
-//             // console.log(to.fullPath);
-//             //next(to.fullPath);
-//         })
-//     }
-//     else next('/login');
-// })
+router.beforeEach((to, from, next) => {
+    const store = userStore();
+    const id = JSON.parse(localStorage.getItem('id') || '-1')
+    const new_login = localStorage.getItem('new_login') !== null;
+    if (new_login) {
+        localStorage.removeItem("new_login");
+    }
+    if (to.fullPath == '/login' || to.fullPath == '/forget') next();
+    else if (id != '-1') {
+        if(store.getState.role == 'student'){
+            router.addRoute({
+                path: '/student',
+                name: 'student',
+                component: Layout,
+                meta: {},
+                children: [{
+                    path: '/student/personal_info',
+                    name: 'student_personal_info',
+                    component: () => import('@/views/student/personal_info.vue'),
+                    meta: {}
+                },
+                {
+                    path: '/student/my_research',
+                    name: 'student_my_research',
+                    component: () => import('@/views/student/my_research.vue'),
+                    meta: {}
+                },
+                {
+                    path: '/student/pre_reviews',
+                    name: 'student_pre_reviews',
+                    component: () => import('@/views/student/pre_reviews.vue'),
+                    meta: {}
+                },
+                {
+                    path: '/student/get_reviews',
+                    name: 'student_get_reviews',
+                    component: () => import('@/views/student/get_reviews.vue'),
+                    meta: {}
+                },
+                {
+                    path: '/student/apply_application',
+                    name: 'student_apply_application',
+                    component: () => import('@/views/student/apply_application.vue'),
+                    meta: {}
+                },
+                {
+                    path: '/student/get_presentation_results',
+                    name: 'student_get_presentation_results',
+                    component: () => import('@/views/student/get_presentation_results.vue'),
+                    meta: {}
+                },
+                {
+                    path: '/student/apply_degree',
+                    name: 'student_apply_degree',
+                    component: () => import('@/views/student/apply_degree.vue'),
+                    meta: {}
+                },
+                {
+                    path: '/student/get_apply_degree_results',
+                    name: 'student_get_apply_degree_results',
+                    component: () => import('@/views/student/get_apply_degree_results.vue'),
+                    meta: {}
+                }
+                ]
+            })
+            router.addRoute({
+                path: '/',
+                name: 'Home',
+                redirect: '/student/personal_info'
+            })
+            to.fullPath = '/student/personal_info'
+            next(to.fullPath);
+        }else if(store.getState.role == 'manager'){
+            to.fullPath = '/admin/get_paper_test_status'
+            router.addRoute({
+                path: '/admin',
+                name: 'admin',
+                component: Layout,
+                meta: {},
+                children: [{
+                    path: '/admin/get_paper_test_status',
+                    name: 'admin_get_paper_test_status',
+                    component: () => import('@/views/admin/get_paper_test_status.vue'),
+                    meta: {}
+                },
+                {
+                    path: '/admin/forward_presentation_results',
+                    name: 'admin_forward_presentation_results',
+                    component: () => import('@/views/admin/forward_presentation_results.vue'),
+                    meta: {}
+                },
+                {
+                    path: '/admin/forward_degree_application_results',
+                    name: 'admin_forward_degree_application_results',
+                    component: () => import('@/views/admin/forward_degree_application_results.vue'),
+                    meta: {}
+                },
+                {
+                    path: '/admin/submit_reviews',
+                    name: 'admin_submit_reviews',
+                    component: () => import('@/views/admin/submit_reviews.vue'),
+                    meta: {}
+                }]
+            })
+            next(to.fullPath);
+        }
+    }
+    else next('/login');
+})
 
 
 
