@@ -11,7 +11,7 @@
     </div>
     <br>
     <a-form-item :wrapper-col="{ ...layout.wrapperCol, offset: 9 }">
-      <a-upload v-model:file-list="fileList" name="file" action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+      <a-upload v-model="fileList" name="file" action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
         :headers="headers" @change="handleChange">
         <a-button>
           <upload-outlined></upload-outlined>
@@ -20,7 +20,7 @@
       </a-upload>
     </a-form-item>
     <a-form-item :wrapper-col="{ ...layout.wrapperCol, offset: 9 }">
-      <a-button @click="submitapply" type="primary" html-type="submit">更新学位申请表</a-button>
+      <a-button @click="submitApply" type="primary" html-type="submit">更新学位申请表</a-button>
     </a-form-item>
   </a-form>
   <p v-if="!loading">
@@ -36,7 +36,18 @@ import { defineComponent, ref, reactive } from "vue";
 import type { UploadChangeParam } from "ant-design-vue";
 import { GetPaperTitle } from '@/request/api';
 import { any } from "vue-types";
-import { GetStatus, UpdateStatus } from "@/request/api"
+import { GetStatus, UpdateStatus} from "@/request/api"
+
+
+import axios from 'axios';
+
+export const submitFormData = (formData: FormData) => {
+  return axios.post('/api/SubmitPDF', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  });
+};
 
 
 const id = localStorage.getItem("id")
@@ -44,6 +55,7 @@ const id = localStorage.getItem("id")
 export default defineComponent({
   data() {
     return {
+      fileList: '',
       paperTitle: '',
       loading: true
     };
@@ -57,22 +69,30 @@ export default defineComponent({
     this.setloading();
   },
   methods: {
-    submitapply() {
+    submitApply() {
       if (id) {
         UpdateStatus(id, '5').then((res: any) => {
           if (res.message == 'success') {
-            console.log('successfully set the stage to 1')
+            console.log('successfully set the stage to 5')
           } else {
-            console.log('fail to set the status 1')
+            console.log('fail to set the status 5')
           }
         }).catch((err: any) => {
           console.log(err);
         })
         const formData = new FormData();
         formData.append('user_id', id);
-        formData.append('fiel')
+        formData.append('degree_pdf', this.fileList);
+        SubmitPDF(formData).then((res: any) => {
+          if (res.message == 'success') {
+            console.log('successfully submit the pdf')
+          } else {
+            console.log('fail to submit the pdf')
+          }
+        }).catch((err: any) => {
+          console.log(err);
+        })
       }
-      
     },
     fetchPaperTitle() {
       if (id) {
@@ -110,6 +130,7 @@ export default defineComponent({
       console.log("Success:", values);
     };
     const handleChange = (info: UploadChangeParam) => {
+      console.log(info)
       if (info.file.status !== "uploading") {
         console.log(info.file, info.fileList);
       }
@@ -119,12 +140,10 @@ export default defineComponent({
         message.error(`${info.file.name} file upload failed.`);
       }
     };
-    const fileList = ref([]);
     return {
       formState,
       onFinish,
       layout,
-      fileList,
       headers: {
         authorization: "authorization-text",
       },

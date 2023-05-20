@@ -108,7 +108,7 @@ export default {
   },
 };
 </script>
-  
+
 <style scoped>
 .presentation-form {
   max-width: 800px;

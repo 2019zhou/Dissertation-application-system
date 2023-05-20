@@ -63,12 +63,8 @@
         </div>
       </template>
       <template v-else-if="column.dataIndex === 'operation'">
-         <a @click="edit(record.key)">编辑 | </a>
-        <a-popconfirm
-          v-if="dataSource.length"
-          title="确认删除?"
-          @confirm="onDelete(record.key)"
-        >
+        <a @click="edit(record.key)">编辑 | </a>
+        <a-popconfirm v-if="dataSource.length" title="确认删除?" @confirm="onDelete(record.key)">
           <a>删除</a>
         </a-popconfirm>
       </template>
@@ -80,10 +76,11 @@ import { computed, defineComponent, reactive, ref } from 'vue';
 import type { Ref, UnwrapRef } from 'vue';
 import { CheckOutlined, EditOutlined } from '@ant-design/icons-vue';
 import { cloneDeep } from 'lodash-es';
+import { GetAll, GetReviews, UpdateStatus } from '@/request/api'
 
 interface DataItem {
   key: string;
-  name: string;
+  id: string;
   reviewer: string;
   indicator1: string;
   indicator2: string;
@@ -97,11 +94,50 @@ export default defineComponent({
     CheckOutlined,
     EditOutlined,
   },
+  mounted() {
+    this.getData();
+  },
+  methods: {
+    //http://1.15.174.76:8080/api/GetReviews?student_id=51255902041
+    getData() {
+      GetAll().then((res: any) => {
+        for (var i = 0; i < res.data.length; i++) {
+          if (res.data[i].id == '000' || parseInt(res.data.degreeApplicationStatus) < 2) {
+            continue;
+          } else {
+            // console.log(res.data[i].id)
+            GetReviews(res.data[i].id).then((res2: any) => {
+              // console.log(res2)
+              if (res2.message == 'success') {
+                for (var j = 0; j < res2.data.reviewSugs.length; j++) {
+                  console.log(res2.data.reviewSugs[j])
+                  this.dataSource.push({
+                    key: (i*10 + j).toString(),
+                    id: res2.data.reviewSugs[j].userId,
+                    reviewer: res2.data.reviewSugs[j].reviewer,
+                    indicator1: res2.data.reviewSugs[j].indicator1,
+                    indicator2: res2.data.reviewSugs[j].indicator2,
+                    indicator3: res2.data.reviewSugs[j].indicator3,
+                    indicator4: res2.data.reviewSugs[j].indicator4,
+                    overallscore: res2.data.reviewSugs[j].generalComment,
+                  })
+                }
+              }
+            }).catch((err: any) => {
+              console.log(err)
+            })
+          }
+        }
+      }).catch((err: any) => {
+        console.log(err)
+      })
+    }
+  },
   setup() {
     const columns = [
       {
         title: '学生姓名',
-        dataIndex: 'name',
+        dataIndex: 'id',
       },
       {
         title: '盲审人',
@@ -133,16 +169,6 @@ export default defineComponent({
       },
     ];
     const dataSource: Ref<DataItem[]> = ref([
-      {
-        key: '0',
-        name: 'tangtang',
-        reviewer: '盲审人 1',
-        indicator1: '90',
-        indicator2: '80',
-        indicator3: '90',
-        indicator4: '80',
-        overallscore: '85',
-      },
     ]);
     const count = computed(() => dataSource.value.length + 1);
     const editableData: UnwrapRef<Record<string, DataItem>> = reactive({});
@@ -153,6 +179,19 @@ export default defineComponent({
     const save = (key: string) => {
       Object.assign(dataSource.value.filter(item => key === item.key)[0], editableData[key]);
       localStorage.setItem("stage", '2')
+      const id = localStorage.getItem("id")
+      if (id) {
+        UpdateStatus(id, '2').then((res: any) => {
+          if (res.message == 'success') {
+            console.log('successfully set the stage to 1')
+          } else {
+            console.log('fail to set the status 1')
+          }
+        }).catch((err: any) => {
+          console.log(err);
+        })
+      }
+
       delete editableData[key];
     };
 
@@ -189,6 +228,7 @@ export default defineComponent({
 <style lang="less">
 .editable-cell {
   position: relative;
+
   .editable-cell-input-wrapper,
   .editable-cell-text-wrapper {
     padding-right: 24px;
@@ -224,6 +264,7 @@ export default defineComponent({
     margin-bottom: 8px;
   }
 }
+
 .editable-cell:hover .editable-cell-icon {
   display: inline-block;
 }

@@ -112,7 +112,7 @@ var routeMap: { [key: string]: [string, string] } = {
 // 定义menu的状态
 const menuState = reactive({
   rootSubmenuKeys: ["student", "admin"],
-  selectedKeys: [routeMap[router.path][1]],
+  selectedKeys: [routeMap[router.path][0]],
   openKeys: [routeMap[router.path][0]],
 });
 

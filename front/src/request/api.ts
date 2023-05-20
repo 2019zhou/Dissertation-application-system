@@ -147,4 +147,15 @@ export const GetAllApplyDegree = () => instance.get("/api/GetAllApplyDegree")
 // }
 
 // http://1.15.174.76:8080/api/UpdatePresentationApplication/
-export const UpdatePresentationApplication = (userId:string, title: string, keyWord:string, presentationTime: string, directorWorkspace:string, director1Name:string, director1Workplace:string, director1Title:string, director2Name:string, director2Workplace:string, director2Title:string, director3Name:string, director3Workplace:string, director3Title:string,) =>instance.post("/api/UpdatePresentationApplication/", {userId:userId, title:title, keyWord:keyWord, presentationTime:presentationTime, directorWorkspace:directorWorkspace, director1Name:director1Name, director1Workplace:director1Workplace, director1Title:director1Title, director2Name:director2Name, director2Workplace:director2Workplace, director2Title:director2Title, director3Name:director3Name, director3Workplace:director3Workplace, director3Title:director3Title,})
+export const UpdatePresentationApplication = (userId: string, title: string, keyWord: string, presentationTime: string, directorWorkspace: string, director1Name: string, director1Workplace: string, director1Title: string, director2Name: string, director2Workplace: string, director2Title: string, director3Name: string, director3Workplace: string, director3Title: string,) => instance.post("/api/UpdatePresentationApplication/", { userId: userId, title: title, keyWord: keyWord, presentationTime: presentationTime, directorWorkspace: directorWorkspace, director1Name: director1Name, director1Workplace: director1Workplace, director1Title: director1Title, director2Name: director2Name, director2Workplace: director2Workplace, director2Title: director2Title, director3Name: director3Name, director3Workplace: director3Workplace, director3Title: director3Title, })
+
+
+// http://1.15.174.76:8080/api/SubmitPDF
+export const SubmitPDF = (formdata: FormData) => forminstance.post("/api/SubmitPDF", { formdata })
+
+
+// http://1.15.174.76:8080/api/GetPresentationApplication?student_id=51255902041
+export const GetPresentationApplication = (id: string) => instance.get("/api/GetPresentationApplication?student_id=" + id)
+
+//http://1.15.174.76:8080/api/all
+export const GetAll = () => instance.get("/api/all")

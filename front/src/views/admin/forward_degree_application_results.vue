@@ -27,7 +27,7 @@ import { computed, defineComponent, reactive, ref } from 'vue';
 import type { Ref, UnwrapRef } from 'vue';
 import { CheckOutlined, EditOutlined } from '@ant-design/icons-vue';
 import { cloneDeep } from 'lodash-es';
-import { GetStatus, UpdateStatus } from '@/request/api'
+import { GetStatus, UpdateStatus, GetAll} from '@/request/api'
 
 const id = localStorage.getItem("id");
 
@@ -47,7 +47,7 @@ export default defineComponent({
     const columns = [
       {
         name: '学生姓名',
-        dataIndex: 'name',
+        dataIndex: 'username',
       },
       {
         title: '学号',
@@ -63,12 +63,6 @@ export default defineComponent({
       },
     ];
     const dataSource: Ref<DataItem[]> = ref([
-      {
-        key: '0',
-        name: 'tangtang',
-        id: '51255902041',
-        decision: '通过',
-      },
     ]);
     const count = computed(() => dataSource.value.length + 1);
     const editableData: UnwrapRef<Record<string, DataItem>> = reactive({});
@@ -108,6 +102,22 @@ export default defineComponent({
       edit,
       save,
     };
+  },
+  mounted() {
+    GetAll().then((res: any) => {
+      console.log(res)
+      for(var i = 0;i < res.data.length;i++){
+        if(res.data[i].id == '000' || parseInt(res.data.degreeApplicationStatus) < 5){
+          continue;
+        }else{
+          res.data[i]['key'] = i.toString()
+          this.dataSource.push(res.data[i])
+        }
+      }
+      // this.dataSource = res.data
+    }).catch((err: any) => {
+      console.log(err)
+    })
   },
   methods: {
     infostu() {
