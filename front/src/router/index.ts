@@ -106,6 +106,24 @@ const routes: Array<RouteRecordRaw> = [
     ],
   },
   {
+    path: '/',
+    redirect: () => {
+      const isLoggedIn = JSON.parse(localStorage.getItem("login") || "false");
+      const id = JSON.parse(localStorage.getItem("id") || "-1");
+      if (isLoggedIn == "true" && id) {
+        GetRole(id).then((res: any) => {
+          if (res.data.role === 'student') {
+            return '/student/personal_info';
+          } else if (res.data.role === 'admin') {
+            return '/admin/get_paper_test_status';
+          }
+        });
+      } else {
+        return '/login';
+      }
+    }
+  },
+  {
     path: "/access-denied",
     component: AccessDenied,
   },
@@ -122,6 +140,7 @@ const router = createRouter({
 
 // 路由守卫
 router.beforeEach((to, from, next) => {
+  if (to.fullPath == '/login' || to.fullPath == '/register') next();
   const isLoggedIn = JSON.parse(localStorage.getItem("login") || "false");
   const id = JSON.parse(localStorage.getItem("id") || "-1");
   if (to.meta.requiresAuth && !isLoggedIn) {
@@ -143,4 +162,4 @@ router.beforeEach((to, from, next) => {
   }
 });
 
-export default router;
+export default router
