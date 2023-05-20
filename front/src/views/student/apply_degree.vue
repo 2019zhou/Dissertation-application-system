@@ -68,9 +68,11 @@ export default defineComponent({
         }).catch((err: any) => {
           console.log(err);
         })
+        const formData = new FormData();
+        formData.append('user_id', id);
+        formData.append('fiel')
       }
-      const formData = new FormData();
-      formData.append()
+      
     },
     fetchPaperTitle() {
       if (id) {

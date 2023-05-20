@@ -99,7 +99,7 @@ import { computed, defineComponent, reactive, ref } from 'vue';
 import type { Ref, UnwrapRef } from 'vue';
 import { CheckOutlined, EditOutlined } from '@ant-design/icons-vue';
 import { cloneDeep } from 'lodash-es';
-import { UpdatePresentationResults } from '@/request/api'
+import { UpdatePresentationResults, UpdateStatus} from '@/request/api'
 
 
 const id = localStorage.getItem("id")
@@ -193,6 +193,15 @@ export default defineComponent({
           if (res.message == "success") {
             console.log(res.data)
           }
+        })
+        UpdateStatus(id, '4').then((res: any) => {
+          if (res.message == 'success') {
+            console.log('successfully set the stage to 1')
+          } else {
+            console.log('fail to set the status 1')
+          }
+        }).catch((err: any) => {
+          console.log(err);
         })
       }
       delete editableData[key];
