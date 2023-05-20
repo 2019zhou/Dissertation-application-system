@@ -1,5 +1,6 @@
 
 <template>
+  <div></div>
   <a-table bordered :data-source="dataSource" :columns="columns">
     <template #bodyCell="{ column, text, record }">
       <template v-if="column.dataIndex === 'decision'">
@@ -26,7 +27,7 @@ import { computed, defineComponent, reactive, ref } from 'vue';
 import type { Ref, UnwrapRef } from 'vue';
 import { CheckOutlined, EditOutlined } from '@ant-design/icons-vue';
 import { cloneDeep } from 'lodash-es';
-import { UpdateStatus } from '@/request/api'
+import { GetStatus, UpdateStatus } from '@/request/api'
 
 const id = localStorage.getItem("id");
 
@@ -77,14 +78,22 @@ export default defineComponent({
     };
     const save = (key: string) => {
       Object.assign(dataSource.value.filter(item => key === item.key)[0], editableData[key]);
-      UpdateStatus(id, '2').then((res: any) => {
-        if (res.message == 'success') {
-          console.log('successfully set the stage to 1')
+      if (id) {
+        if (editableData[key].decision == '通过') {
+          UpdateStatus(id, 'pass').then((res: any) => {
+            console.log(res)
+          }).catch((err: any) => {
+            console.log(err)
+          })
         } else {
-          console.log('fail to set the status 1')
+          UpdateStatus(id, 'fail').then((res: any) => {
+            console.log(res)
+          }).catch((err: any) => {
+            console.log(err)
+          })
         }
-      })
-      delete editableData[key];
+        delete editableData[key];
+      }
     };
 
     const onDelete = (key: string) => {
@@ -102,8 +111,28 @@ export default defineComponent({
   },
   methods: {
     infostu() {
-      localStorage.setItem("stage", '6')
-    }
+      if (id) {
+        GetStatus(id).then((res: any) => {
+          console.log(res)
+          if (res.data.status == 'pass') {
+            UpdateStatus(id, '8').then((res: any) => {
+              console.log(res)
+            }).catch((err: any) => {
+              console.log(err)
+            })
+          } else {
+            UpdateStatus(id, '7').then((res: any) => {
+              console.log(res)
+            }).catch((err: any) => {
+              console.log(err)
+            })
+          }
+        }).catch((err: any) => {
+          console.log(err)
+        }
+        )
+      }
+    },
   },
 });
 </script>

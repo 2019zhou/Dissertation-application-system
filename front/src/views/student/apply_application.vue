@@ -3,78 +3,78 @@
     <a-row :gutter="24">
       <a-col :span="12">
         <a-form-item label="论文题目" prop="name">
-          <a-input v-model="form.dissertation_name" placeholder="请输入论文题目"></a-input>
+          <a-input v-model:value="form.dissertation_name" placeholder="请输入论文题目"></a-input>
         </a-form-item>
       </a-col>
       <a-col :span="12">
         <a-form-item label="关键字" prop="studentId">
-          <a-input v-model="form.key_word" placeholder="请输入论文关键字"></a-input>
+          <a-input v-model:value="form.key_word" placeholder="请输入论文关键字"></a-input>
         </a-form-item>
       </a-col>
     </a-row>
     <a-row :gutter="24">
       <a-col :span="12">
         <a-form-item label="导师工作单位" prop="faculty">
-          <a-input v-model="form.director_affiliation" placeholder="请输入导师工作单位"></a-input>
+          <a-input v-model:value="form.director_affiliation" placeholder="请输入导师工作单位"></a-input>
         </a-form-item>
       </a-col>
       <a-col :span="12">
         <a-form-item label="导师从事的学科领域" prop="department">
-          <a-input v-model="form.director_direction" placeholder="请输入导师从事的学科领域"></a-input>
+          <a-input v-model:value="form.director_direction" placeholder="请输入导师从事的学科领域"></a-input>
         </a-form-item>
       </a-col>
     </a-row>
     <a-form-item label="论文答辩日期">
-      <a-date-picker v-model="form.presentation_time" format="YYYY-MM-DD" />
+      <a-date-picker v-model:value="form.presentation_time" format="YYYY-MM-DD" />
     </a-form-item>
     <a-row :gutter="16" class="form-row">
       <a-col :span="8">
         <a-form-item label="导师一&nbsp;: 姓名" :colon="false">
-          <a-input v-model="form.director1_name" />
+          <a-input v-model:value="form.director1_name" />
         </a-form-item>
       </a-col>
       <a-col :span="8">
         <a-form-item label="单位" :colon="false">
-          <a-input v-model="form.director1_affiliation" />
+          <a-input v-model:value="form.director1_affiliation" />
         </a-form-item>
       </a-col>
       <a-col :span="8">
         <a-form-item label="职称" :colon="false">
-          <a-input v-model="form.director1_title" />
+          <a-input v-model:value="form.director1_title" />
         </a-form-item>
       </a-col>
     </a-row>
     <a-row :gutter="16" class="form-row">
       <a-col :span="8">
         <a-form-item label="导师二&nbsp;: 姓名" :colon="false">
-          <a-input v-model="form.director2_name" />
+          <a-input v-model:value="form.director2_name" />
         </a-form-item>
       </a-col>
       <a-col :span="8">
         <a-form-item label="单位" :colon="false">
-          <a-input v-model="form.director2_affiliation" />
+          <a-input v-model:value="form.director2_affiliation" />
         </a-form-item>
       </a-col>
       <a-col :span="8">
         <a-form-item label="职称" :colon="false">
-          <a-input v-model="form.director2_title" />
+          <a-input v-model:value="form.director2_title" />
         </a-form-item>
       </a-col>
     </a-row>
     <a-row :gutter="16" class="form-row">
       <a-col :span="8">
         <a-form-item label="导师三&nbsp;: 姓名" :colon="false">
-          <a-input v-model="form.director3_name" />
+          <a-input v-model:value="form.director3_name" />
         </a-form-item>
       </a-col>
       <a-col :span="8">
         <a-form-item label="单位" :colon="false">
-          <a-input v-model="form.director3_affiliation" />
+          <a-input v-model:value="form.director3_affiliation" />
         </a-form-item>
       </a-col>
       <a-col :span="8">
         <a-form-item label="职称" :colon="false">
-          <a-input v-model="form.director3_title" />
+          <a-input v-model:value="form.director3_title" />
         </a-form-item>
       </a-col>
     </a-row>
@@ -125,6 +125,7 @@ export default {
   },
   mounted() {
     this.setloading();
+    this.getdata();
   },
   methods: {
     handleSubmit() {
@@ -140,6 +141,7 @@ export default {
         })
       }
       console.log("提交的表单数据：", this.form);
+      
     },
     setloading() {
       // 从 localStorage 中获取值
@@ -156,6 +158,9 @@ export default {
           console.log(err);
         })
       }
+    },
+    getdata(){
+
     }
   },
 };

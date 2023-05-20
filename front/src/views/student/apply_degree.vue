@@ -69,7 +69,6 @@ export default defineComponent({
           console.log(err);
         })
       }
-
     },
     fetchPaperTitle() {
       if (id) {
@@ -80,18 +79,19 @@ export default defineComponent({
       }
     },
     setloading() {
-      // 从 localStorage 中获取值
-      GetStatus(id).then((res: any) => {
-        if (res.message == 'success') {
-          if (res.data.status && res.data.status >= '4') {
-            this.loading = true;
-          } else {
-            this.loading = false;
+      if (id) {
+        GetStatus(id).then((res: any) => {
+          if (res.message == 'success') {
+            if (res.data.status && res.data.status >= '4') {
+              this.loading = true;
+            } else {
+              this.loading = false;
+            }
           }
-        }
-      }).catch((err: any) => {
-        console.log(err);
-      })
+        }).catch((err: any) => {
+          console.log(err);
+        })
+      }
     }
   },
   setup() {
@@ -101,7 +101,6 @@ export default defineComponent({
     };
 
     const formState = reactive({
-      name
     });
     const onFinish = (values: any) => {
       console.log("Success:", values);
