@@ -115,8 +115,8 @@ const routes: Array<RouteRecordRaw> = [
     redirect: () => {
       const isLoggedIn = JSON.parse(localStorage.getItem("login") || "false");
       if (isLoggedIn == "true") {
-        const id = JSON.parse(localStorage.getItem("id") || "-1");
-        if (id != "-1") {
+        const id = localStorage.getItem("id");
+        if (id) {
           GetRole(id).then((res: any) => {
             if (res.data.role == 'student') {
               return '/student/personal_info';

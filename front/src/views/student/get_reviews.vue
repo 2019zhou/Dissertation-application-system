@@ -19,7 +19,7 @@
 <script lang="ts">
 import { GetReviews, GetStatus } from '@/request/api'
 
-const id = JSON.parse(localStorage.getItem("id") || "-1");
+const id = localStorage.getItem("id");
 
 export default {
   data() {
@@ -70,38 +70,44 @@ export default {
       // 从 localStorage 中获取值
       const st = localStorage.getItem('stage');
       // 判断是否存在值并进行相应处理
-      GetStatus(id).then((res: any) => {
-        if (res.message == 'success') {
-          if (res.data.status && res.data.status >= '2') {
-            this.loading = true;
-          } else {
-            this.loading = false;
+      if (id) {
+        GetStatus(id).then((res: any) => {
+          if (res.message == 'success') {
+            if (res.data.status && res.data.status >= '2') {
+              this.loading = true;
+            } else {
+              this.loading = false;
+            }
           }
-        }
-      }).catch((err: any) => {
-        console.log(err);
-      })
+        }).catch((err: any) => {
+          console.log(err);
+        })
+      }
+
     },
     getData() {
-      GetReviews(id).then((res: any) => {
-        if (res.message == 'success') {
-          this.data = res.data.reviewSugs;
-          console.log(res.data.reviewSugs)
-        }
-        var sum = 0;
-        for(var i = 0;i < this.data.length;i++){
-          sum += parseInt(res.data.reviewSugs[i].generalComment);
-        }
-        if(sum/this.data.length < 75){
-          this.isQualified = false;
-        }else{
-          this.isQualified = true;
-        }
-        // console.log(sum)
-        // console.log(sum/this.data.length)
-      }).catch((err: any) => {
-        console.log(err);
-      })
+      if (id) {
+        GetReviews(id).then((res: any) => {
+          if (res.message == 'success') {
+            this.data = res.data.reviewSugs;
+            console.log(res.data.reviewSugs)
+          }
+          var sum = 0;
+          for (var i = 0; i < this.data.length; i++) {
+            sum += parseInt(res.data.reviewSugs[i].generalComment);
+          }
+          if (sum / this.data.length < 75) {
+            this.isQualified = false;
+          } else {
+            this.isQualified = true;
+          }
+          // console.log(sum)
+          // console.log(sum/this.data.length)
+        }).catch((err: any) => {
+          console.log(err);
+        })
+      }
+
     }
   }
 }

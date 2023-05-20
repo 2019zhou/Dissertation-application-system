@@ -28,7 +28,7 @@ import { CheckOutlined, EditOutlined } from '@ant-design/icons-vue';
 import { cloneDeep } from 'lodash-es';
 import { UpdateStatus } from '@/request/api'
 
-const id = JSON.parse(localStorage.getItem("id") || "-1");
+const id = localStorage.getItem("id");
 
 interface DataItem {
   key: string;

@@ -50,7 +50,7 @@
 <script lang="ts">
 import { GetPresentationResults, GetStatus } from '@/request/api';
 
-const id = JSON.parse(localStorage.getItem("id") || "-1");
+const id = localStorage.getItem("id");
 
 export default {
   data() {
@@ -74,29 +74,36 @@ export default {
   methods: {
     getData() {
       // 从 localStorage 中获取值
-      GetStatus(id).then((res: any) => {
-        if (res.message == 'success') {
-          if(res.data.status && res.data.status >= '4'){
-            this.loading = true;
-          }else{
-            this.loading = false;
+      if (id) {
+        GetStatus(id).then((res: any) => {
+          if (res.message == 'success') {
+            if (res.data.status && res.data.status >= '4') {
+              this.loading = true;
+            } else {
+              this.loading = false;
+            }
           }
-        }
-      }).catch((err: any) => {
-        console.log(err);
-      })
+        }).catch((err: any) => {
+          console.log(err);
+        })
+      }
+
     },
     getpre() {
-      const id = JSON.parse(localStorage.getItem("id") || "-1");
-      GetPresentationResults(id).then((res: any) => {
-        this.form.attendance = res.data.directorNum;
-        this.form.presentation_time = res.data.presentationTime;
-        this.form.presentation_location = res.data.presentationPlace;
-        this.form.paper_pass = res.data.votePassNum;
-        this.form.paper_fail = res.data.voteFailNum;
-        this.form.degree_pass = res.data.voteAgreeNum;
-        this.form.degree_fail = res.data.voteDisagreeNum;
-      })
+      const id = localStorage.getItem("id");
+      if (id) {
+        GetPresentationResults(id).then((res: any) => {
+          this.form.attendance = res.data.directorNum;
+          this.form.presentation_time = res.data.presentationTime;
+          this.form.presentation_location = res.data.presentationPlace;
+          this.form.paper_pass = res.data.votePassNum;
+          this.form.paper_fail = res.data.voteFailNum;
+          this.form.degree_pass = res.data.voteAgreeNum;
+          this.form.degree_fail = res.data.voteDisagreeNum;
+        }).catch((err: any) => {
+          console.log(err);
+        })
+      }
     }
   },
 };

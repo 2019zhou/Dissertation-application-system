@@ -39,7 +39,7 @@ import { any } from "vue-types";
 import { GetStatus, UpdateStatus } from "@/request/api"
 
 
-const id = JSON.parse(localStorage.getItem("id") || "-1");
+const id = localStorage.getItem("id")
 
 export default defineComponent({
   data() {
@@ -58,15 +58,18 @@ export default defineComponent({
   },
   methods: {
     submitapply() {
-      UpdateStatus(id, '5').then((res: any) => {
-        if (res.message == 'success') {
-          console.log('successfully set the stage to 1')
-        } else {
-          console.log('fail to set the status 1')
-        }
-      }).catch((err: any) => {
-        console.log(err);
-      })
+      if (id) {
+        UpdateStatus(id, '5').then((res: any) => {
+          if (res.message == 'success') {
+            console.log('successfully set the stage to 1')
+          } else {
+            console.log('fail to set the status 1')
+          }
+        }).catch((err: any) => {
+          console.log(err);
+        })
+      }
+
     },
     fetchPaperTitle() {
       if (id) {

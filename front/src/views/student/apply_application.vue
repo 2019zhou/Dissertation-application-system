@@ -91,7 +91,7 @@
 import { Form, Input, Button, Textarea, Row, Col } from "ant-design-vue";
 import { GetStatus, UpdateStatus } from "@/request/api"
 
-const id = JSON.parse(localStorage.getItem("id") || "-1");
+const id = localStorage.getItem("id");
 
 export default {
   components: {
@@ -128,30 +128,34 @@ export default {
   },
   methods: {
     handleSubmit() {
-      UpdateStatus(id, '3').then((res: any) => {
-        if (res.message == 'success') {
-          console.log('successfully set the stage to 1')
-        } else {
-          console.log('fail to set the status 1')
-        }
-      }).catch((err: any) => {
-        console.log(err);
-      })
+      if (id) {
+        UpdateStatus(id, '3').then((res: any) => {
+          if (res.message == 'success') {
+            console.log('successfully set the stage to 1')
+          } else {
+            console.log('fail to set the status 1')
+          }
+        }).catch((err: any) => {
+          console.log(err);
+        })
+      }
       console.log("提交的表单数据：", this.form);
     },
     setloading() {
       // 从 localStorage 中获取值
-      GetStatus(id).then((res: any) => {
-        if (res.message == 'success') {
-          if (res.data.status && res.data.status >= '2') {
-            this.loading = true;
-          } else {
-            this.loading = false;
+      if (id) {
+        GetStatus(id).then((res: any) => {
+          if (res.message == 'success') {
+            if (res.data.status && res.data.status >= '2') {
+              this.loading = true;
+            } else {
+              this.loading = false;
+            }
           }
-        }
-      }).catch((err: any) => {
-        console.log(err);
-      })
+        }).catch((err: any) => {
+          console.log(err);
+        })
+      }
     }
   },
 };

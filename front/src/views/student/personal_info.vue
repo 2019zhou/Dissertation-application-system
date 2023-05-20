@@ -64,7 +64,7 @@
 <script lang="ts">
 import { GetPersonalInfo, UpdatePersonalInfo } from '@/request/api'
 
-const id = JSON.parse(localStorage.getItem("id") || "-1");
+const id = localStorage.getItem("id");
 
 export default {
   data() {
@@ -88,7 +88,7 @@ export default {
   },
   methods: {
     getPersonalInfo(){
-      if(id != '-1'){
+      if(id){
         GetPersonalInfo(id).then((res:any)=>{
           if(res.message == "success"){
             this.form.name = res.data.username

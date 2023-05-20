@@ -31,9 +31,9 @@ import { InboxOutlined, UploadOutlined } from "@ant-design/icons-vue";
 import { message } from "ant-design-vue";
 import { defineComponent, ref, reactive } from "vue";
 import type { UploadChangeParam } from "ant-design-vue";
-import { UpdateStatus, GetPreReview} from "@/request/api"
+import { UpdateStatus, GetPreReview } from "@/request/api"
 
-const id = JSON.parse(localStorage.getItem("id") || "-1");
+const id = localStorage.getItem("id");
 
 export default defineComponent({
   components: {
@@ -45,24 +45,27 @@ export default defineComponent({
   },
   methods: {
     submitPaper() {
-      UpdateStatus(id, '1').then((res: any) => {
-        if (res.message == 'success') {
-          console.log('successfully set the stage to 1')
-        } else {
-          console.log('fail to set the status 1')
-        }
-      }).catch((err: any) => {
-        console.log(err);
-      })
-      
+      if (id) {
+        UpdateStatus(id, '1').then((res: any) => {
+          if (res.message == 'success') {
+            console.log('successfully set the stage to 1')
+          } else {
+            console.log('fail to set the status 1')
+          }
+        }).catch((err: any) => {
+          console.log(err);
+        })
+      }
+
+
     },
-    getData(){
-      GetPreReview(id).then((res:any)=>{
+    getData() {
+      GetPreReview(id).then((res: any) => {
         console.log(res);
         this.formState.user.title = res.data.title;
         this.formState.user.direction = res.data.paperDirection;
         this.formState.user.abstract = res.data.abstractText;
-      }).catch((err:any)=>{
+      }).catch((err: any) => {
         console.log(err);
       })
     }
@@ -78,7 +81,7 @@ export default defineComponent({
         title: "",
         direction: "",
         abstract: "",
-        },
+      },
     });
     const onFinish = (values: any) => {
       console.log("Success:", values);

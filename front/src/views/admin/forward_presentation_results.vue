@@ -102,7 +102,7 @@ import { cloneDeep } from 'lodash-es';
 import { UpdatePresentationResults } from '@/request/api'
 
 
-const id = JSON.parse(localStorage.getItem("id") || "-1");
+const id = localStorage.getItem("id")
 
 interface DataItem {
   key: string;
@@ -187,8 +187,8 @@ export default defineComponent({
     };
     const save = (key: string) => {
       Object.assign(dataSource.value.filter(item => key === item.key)[0], editableData[key]);
-      const id = JSON.parse(localStorage.getItem('id') || '-1')
-      if (id != '-1') {
+      const id = localStorage.getItem('id')
+      if (id) {
         UpdatePresentationResults(id, editableData[key].num, editableData[key].presentation_time, editableData[key].presentation_location, editableData[key].paper_pass, editableData[key].paper_fail, editableData[key].degree_pass, editableData[key].degree_fail).then((res: any) => {
           if (res.message == "success") {
             console.log(res.data)
