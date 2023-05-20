@@ -5,7 +5,7 @@ import { message } from "ant-design-vue";
 const forminstance = axios.create({
     timeout: 15000,
     baseURL: "http://1.15.174.76:8080/",
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    headers: { 'Content-Type': 'multipart/form-data' },
     transformRequest: [function (data) {
         let ret = ''
         for (let it in data) {

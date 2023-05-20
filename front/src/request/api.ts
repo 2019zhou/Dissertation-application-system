@@ -123,7 +123,7 @@ export const GetAllPreReview = () => instance.get("/api/GetAllPreReview")
 export const GetAllPersentationResults = () => instance.get("/api/GetAllPersentationResults")
 
 //http://1.15.174.76:8080/api/GetAllPresentationAppl
-export const c = () => instance.get("/api/GetAllPresentationAppl")
+export const GetAllPresentationAppl = () => instance.get("/api/GetAllPresentationAppl")
 
 //http://1.15.174.76:8080/api/GetAllApplyDegree
 export const GetAllApplyDegree = () => instance.get("/api/GetAllApplyDegree")

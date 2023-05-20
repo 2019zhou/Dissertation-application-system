@@ -36,7 +36,7 @@ import { defineComponent, ref, reactive } from "vue";
 import type { UploadChangeParam } from "ant-design-vue";
 import { GetPaperTitle } from '@/request/api';
 import { any } from "vue-types";
-import { GetStatus, UpdateStatus} from "@/request/api"
+import { GetStatus, UpdateStatus, SubmitPDF} from "@/request/api"
 
 
 import axios from 'axios';

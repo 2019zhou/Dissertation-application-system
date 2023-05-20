@@ -136,7 +136,7 @@ export default defineComponent({
   setup() {
     const columns = [
       {
-        title: '学生姓名',
+        title: '学号',
         dataIndex: 'id',
       },
       {

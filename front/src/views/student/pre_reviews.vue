@@ -27,6 +27,7 @@
 
 
 <script lang="ts">
+import axios from 'axios';
 import { InboxOutlined, UploadOutlined } from "@ant-design/icons-vue";
 import { message } from "ant-design-vue";
 import { defineComponent, ref, reactive } from "vue";
@@ -56,18 +57,43 @@ export default defineComponent({
           console.log(err);
         })
       }
-
-
+      const formData = new FormData();
+      if (id) {
+        formData.append('user_id', id);
+        formData.append('title', this.formState.user.title);
+        formData.append('abstract', this.formState.user.abstract);
+        formData.append('paper_direction', this.formState.user.direction);
+        formData.append('paper_pdf', this.fileList[0].originFileObj);
+        axios
+          .post('http://1.15.174.76:8080/api/UpdatePreReview', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          })
+          .then(response => {
+            // 处理响应数据
+            console.log(response);
+            message.success('PDF上传成功');
+          })
+          .catch(error => {
+            // 处理错误
+            console.error(error);
+            message.error('PDF上传失败');
+          });
+      }
     },
     getData() {
-      GetPreReview(id).then((res: any) => {
-        console.log(res);
-        this.formState.user.title = res.data.title;
-        this.formState.user.direction = res.data.paperDirection;
-        this.formState.user.abstract = res.data.abstractText;
-      }).catch((err: any) => {
-        console.log(err);
-      })
+      if (id) {
+        GetPreReview(id).then((res: any) => {
+          console.log(res);
+          this.formState.user.title = res.data.title;
+          this.formState.user.direction = res.data.paperDirection;
+          this.formState.user.abstract = res.data.abstractText;
+        }).catch((err: any) => {
+          console.log(err);
+        })
+      }
+
     }
   },
   setup() {
