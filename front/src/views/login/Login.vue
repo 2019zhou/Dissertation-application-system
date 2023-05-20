@@ -45,7 +45,7 @@
 import { createRouterMatcher, useRouter } from 'vue-router';
 import { reactive, computed } from 'vue';
 import { UserOutlined, LockOutlined, ConsoleSqlOutlined } from '@ant-design/icons-vue';
-import { LoginApi, GetRole, UpdateStatus } from '@/request/api'
+import { LoginApi, GetRole } from '@/request/api'
 import { getBeforeSelectionText } from 'ant-design-vue/lib/vc-mentions/src/util';
 import { dataTool } from 'echarts';
 interface FormState {
@@ -62,22 +62,11 @@ const onFinish = (values: any) => {
     LoginApi(formState.username, formState.password).then((res: any) => {
         console.log(res.message)
         if (res.message == 'success') {
-            localStorage.setItem('token', res.data['token']);
             localStorage.setItem('id', formState.username);
             localStorage.setItem('login', 'true');
 
-            UpdateStatus(formState.username, '1').then((res: any) => {
-                if (res.message == 'success') {
-                    console.log('successfully set the stage to 1')
-                } else {
-                    console.log('fail to set the status 1')
-                }
-            })
-            // store.setState()
-            // import { userStore } from '@/store/user'
             GetRole(formState.username).then((ress: any) => {
                 localStorage.setItem('role', ress.data.role)
-                store.setState({ username: formState.username, role: ress.data.role })
                 console.log(ress.data.role)
                 if (ress.data.role == "student") {
                     router.push('/student/personal_info')

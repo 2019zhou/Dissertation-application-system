@@ -120,7 +120,7 @@
       <a-row :gutter="24">
         <a-col :span="12">
           <a-form-item label="联系邮箱" prop="mail">
-            <a-input v-model="form.mail" placeholder=form.mail></a-input>
+            <a-input v-model="form.mail"></a-input>
           </a-form-item>
         </a-col>
       </a-row>

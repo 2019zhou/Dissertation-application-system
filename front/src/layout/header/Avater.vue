@@ -1,7 +1,7 @@
 <template>
     <a-dropdown>
         <a class="ant-dropdown-link" @click.prevent style="color: black !important;">
-            {{ user.name }}
+            {{ id }}
             <DownOutlined />
         </a>
         <template #overlay>
@@ -21,7 +21,8 @@ import { useRouter } from 'vue-router';
 
 // 获取用户信息
 const store = userStore()
-const user = store.getState
+const id = localStorage.getItem('id')
+
 // 获取路由器
 const router = useRouter();
 
