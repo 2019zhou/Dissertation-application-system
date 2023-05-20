@@ -140,7 +140,7 @@ const router = createRouter({
 
 // 路由守卫
 router.beforeEach((to, from, next) => {
-  if (to.fullPath == '/login' || to.fullPath == '/register') next();
+  if (to.fullPath == '/login' || to.fullPath == '/forget') next();
   const isLoggedIn = JSON.parse(localStorage.getItem("login") || "false");
   const id = JSON.parse(localStorage.getItem("id") || "-1");
   if (to.meta.requiresAuth && !isLoggedIn) {

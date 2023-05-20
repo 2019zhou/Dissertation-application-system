@@ -36,8 +36,12 @@
                 <a href="/register">注册账号</a>
                 </div> -->
             <div style="float:left;">
-                <a class="login-form-forgot" href="/forget">忘记密码</a>
+                <div v-if="wrongpass">
+                <h4><font color="red">密码不正确 </font></h4>
+                </div>
+            <a class="login-form-forgot" href="/forget">忘记密码</a>
             </div>
+
         </a-form>
     </div>
 </template>
@@ -58,25 +62,29 @@ const formState = reactive<FormState>({
 });
 const router = useRouter();
 
+let wrongpass = localStorage.getItem('wp')
+
 const onFinish = (values: any) => {
     LoginApi(formState.username, formState.password).then((res: any) => {
         console.log(res.message)
         if (res.message == 'success') {
+            localStorage.setItem('wp', 'false')
             localStorage.setItem('id', formState.username);
             localStorage.setItem('login', 'true');
-
+            localStorage.removeItem('role')
             GetRole(formState.username).then((ress: any) => {
                 localStorage.setItem('role', ress.data.role)
                 console.log(ress.data.role)
                 if (ress.data.role == "student") {
                     router.push('/student/personal_info')
-                } else if (ress.data.role == 'admin') {
+                } else if (ress.data.role == 'manager') {
                     router.push('/admin/get_paper_test_status')
                 }
             })
         }
     }).catch((err: any) => {
         console.log(err);
+        localStorage.setItem('wp', 'true')
     })
 };
 

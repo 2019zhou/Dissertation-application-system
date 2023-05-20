@@ -42,7 +42,7 @@ import { InboxOutlined, UploadOutlined } from "@ant-design/icons-vue";
 import { message } from "ant-design-vue";
 import { defineComponent, ref, reactive } from "vue";
 import type { UploadChangeParam } from "ant-design-vue";
-import { SubmitPaperApi } from "@/request/api";
+
 
 export default defineComponent({
   components: {

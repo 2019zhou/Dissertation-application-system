@@ -16,11 +16,9 @@
 </template>
 <script lang="ts" setup>
 import { DownOutlined } from '@ant-design/icons-vue';
-import { userStore } from '../../store/user';
 import { useRouter } from 'vue-router';
 
 // 获取用户信息
-const store = userStore()
 const id = localStorage.getItem('id')
 
 // 获取路由器

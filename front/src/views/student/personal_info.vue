@@ -151,9 +151,12 @@ import { UpdatePersonalInfo} from '@/request/api'
     },
     methods: {
       handleSubmit() {
-        console.log(this.form.studentId)
-        this.form.name = "tangtang"
+        // console.log(this.form.studentId)
+        // this.form.name = "tangtang"
         this.submitted = true
+      },
+      updateinfo(){
+        this.submitted = false
         // UpdatePersonalInfo(this.form.studentId, this.form.name, this.form.department, this.form.college, this.form.length_of_schooling, this.form.research_direction, this.form.political_status, this.form.phone, this.form.mail).then((res:any)=>{
         //   if(res.message == "success"){
         //     console.log("更新成功")
@@ -161,9 +164,6 @@ import { UpdatePersonalInfo} from '@/request/api'
         //     console.log(res)
         //   }
         // })
-      },
-      updateinfo(){
-        this.submitted = false
       }
     },
   };

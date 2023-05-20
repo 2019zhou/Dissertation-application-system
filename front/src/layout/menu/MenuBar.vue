@@ -79,12 +79,9 @@ import {
   TeamOutlined,
   FileSearchOutlined,
 } from "@ant-design/icons-vue";
-import { userStore } from "@/store/user";
 import { useRoute } from "vue-router";
 
 // 获取用户信息
-// const store = userStore();
-// const user = store.getState;
 const role = localStorage.getItem("role")
 
 // 获取路由
@@ -114,7 +111,7 @@ var routeMap: { [key: string]: [string, string] } = {
 
 // 定义menu的状态
 const menuState = reactive({
-  rootSubmenuKeys: ["student", "admin", "chairman"],
+  rootSubmenuKeys: ["student", "admin"],
   selectedKeys: [routeMap[router.path][1]],
   openKeys: [routeMap[router.path][0]],
 });

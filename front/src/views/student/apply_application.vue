@@ -25,8 +25,8 @@
       </a-col>
     </a-row>
     <a-form-item label="论文答辩日期">
-              <a-date-picker v-model="form.presentation_time" format="YYYY-MM-DD" />
-            </a-form-item>
+      <a-date-picker v-model="form.presentation_time" format="YYYY-MM-DD" />
+    </a-form-item>
     <a-row :gutter="16" class="form-row">
       <a-col :span="8">
         <a-form-item label="导师一&nbsp;: 姓名" :colon="false">
@@ -79,16 +79,19 @@
       </a-col>
     </a-row>
     <a-form-item :wrapper-col="{ offset: 0, span: 12 }">
-        <a-button type="primary" @click="handleSubmit">更新答辩申请</a-button>
-      </a-form-item>
+      <a-button type="primary" @click="handleSubmit">更新答辩申请</a-button>
+    </a-form-item>
   </a-form>
   <p v-if="!loading">
   <h3> 尚未到达此阶段</h3>
   </p>
 </template>
   
-  <script lang="ts">
+<script lang="ts">
 import { Form, Input, Button, Textarea, Row, Col } from "ant-design-vue";
+import { GetStatus, UpdateStatus } from "@/request/api"
+
+const id = JSON.parse(localStorage.getItem("id") || "-1");
 
 export default {
   components: {
@@ -121,22 +124,34 @@ export default {
     };
   },
   mounted() {
-    this.getDataFromLocalStorage();
+    this.setloading();
   },
   methods: {
     handleSubmit() {
-      localStorage.setItem('stage', '3')
+      UpdateStatus(id, '3').then((res: any) => {
+        if (res.message == 'success') {
+          console.log('successfully set the stage to 1')
+        } else {
+          console.log('fail to set the status 1')
+        }
+      }).catch((err: any) => {
+        console.log(err);
+      })
       console.log("提交的表单数据：", this.form);
     },
-    getDataFromLocalStorage() {
+    setloading() {
       // 从 localStorage 中获取值
-      const st = localStorage.getItem('stage');
-      // 判断是否存在值并进行相应处理
-      if(st && st >= '2'){
-        this.loading = true;
-      }else{
-        this.loading = false;
-      }
+      GetStatus(id).then((res: any) => {
+        if (res.message == 'success') {
+          if (res.data.status && res.data.status >= '2') {
+            this.loading = true;
+          } else {
+            this.loading = false;
+          }
+        }
+      }).catch((err: any) => {
+        console.log(err);
+      })
     }
   },
 };
