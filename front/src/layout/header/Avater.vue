@@ -27,7 +27,8 @@ const router = useRouter();
 
 // 退出登录
 const logout = () => {
-    localStorage.removeItem("token");
+    localStorage.removeItem("login")
+    localStorage.removeItem("id");
     router.push("/login");
 }
 </script>

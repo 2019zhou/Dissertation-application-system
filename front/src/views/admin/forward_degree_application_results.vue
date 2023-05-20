@@ -15,8 +15,8 @@
         </div>
       </template>
       <template v-else-if="column.dataIndex === 'operation'">
-         <a @click="edit(record.key)">编辑 | </a>
-         <a @click="infostu">告知学生</a>
+        <a @click="edit(record.key)">编辑 | </a>
+        <a @click="infostu">告知学生</a>
       </template>
     </template>
   </a-table>
@@ -26,6 +26,7 @@ import { computed, defineComponent, reactive, ref } from 'vue';
 import type { Ref, UnwrapRef } from 'vue';
 import { CheckOutlined, EditOutlined } from '@ant-design/icons-vue';
 import { cloneDeep } from 'lodash-es';
+import { UpdateStatus } from '@/request/api'
 
 interface DataItem {
   key: string;
@@ -75,6 +76,13 @@ export default defineComponent({
     const save = (key: string) => {
       Object.assign(dataSource.value.filter(item => key === item.key)[0], editableData[key]);
       localStorage.setItem("stage", '2')
+      UpdateStatus(formState.username, '1').then((res: any) => {
+        if (res.message == 'success') {
+          console.log('successfully set the stage to 1')
+        } else {
+          console.log('fail to set the status 1')
+        }
+      })
       delete editableData[key];
     };
 
@@ -92,15 +100,16 @@ export default defineComponent({
     };
   },
   methods: {
-    infostu(){
+    infostu() {
       localStorage.setItem("stage", '6')
     }
-    },
+  },
 });
 </script>
 <style lang="less">
 .editable-cell {
   position: relative;
+
   .editable-cell-input-wrapper,
   .editable-cell-text-wrapper {
     padding-right: 24px;
@@ -136,6 +145,7 @@ export default defineComponent({
     margin-bottom: 8px;
   }
 }
+
 .editable-cell:hover .editable-cell-icon {
   display: inline-block;
 }
