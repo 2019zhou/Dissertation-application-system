@@ -69,6 +69,8 @@ export default defineComponent({
           console.log(err);
         })
       }
+      const formData = new FormData();
+      formData.append()
     },
     fetchPaperTitle() {
       if (id) {

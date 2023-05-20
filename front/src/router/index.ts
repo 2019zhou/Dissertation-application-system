@@ -148,23 +148,25 @@ const router = createRouter({
 // 路由守卫
 router.beforeEach((to, from, next) => {
   if (to.fullPath == '/login' || to.fullPath == '/forget' || to.fullPath == '/test') next();
-  const isLoggedIn = JSON.parse(localStorage.getItem("login") || "false");
-  if (to.meta.requiresAuth && !isLoggedIn) {
-    // 身份验证失败，重定向到登录页面或其他处理
-    next('/login');
-  } else {
-    const id = localStorage.getItem("id")
-    if (id) {
-      GetRole(id).then((res: any) => {
-        localStorage.setItem("role", res.data.role);
-        if (to.meta.role && to.meta.role != res.data.role) {
-          next("/access-denied");
-        } else {
-          next();
-        }
-      });
+  else {
+    const isLoggedIn = JSON.parse(localStorage.getItem("login") || "false");
+    if (to.meta.requiresAuth && !isLoggedIn) {
+      // 身份验证失败，重定向到登录页面或其他处理
+      next('/login');
     } else {
-      next("/login");
+      const id = localStorage.getItem("id")
+      if (id) {
+        GetRole(id).then((res: any) => {
+          localStorage.setItem("role", res.data.role);
+          if (to.meta.role && to.meta.role != res.data.role) {
+            next("/access-denied");
+          } else {
+            next();
+          }
+        });
+      } else {
+        next("/login");
+      }
     }
   }
 });
