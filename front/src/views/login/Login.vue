@@ -35,12 +35,12 @@
             <!-- <div style="float:left;">
                 <a href="/register">注册账号</a>
                 </div> -->
-            <div style="float:left;">
+            <!-- <div style="float:left;">
                 <div v-if="wrongpass">
                 <h4><font color="red">密码不正确 </font></h4>
                 </div>
             <a class="login-form-forgot" href="/forget">忘记密码</a>
-            </div>
+            </div> -->
 
         </a-form>
     </div>
