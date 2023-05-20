@@ -6,6 +6,11 @@ import { GetRole } from "@/request/api";
 
 const routes: Array<RouteRecordRaw> = [
   {
+    path: "/test",
+    name: "test",
+    component: () => import("@/views/student/test.vue"),
+  },
+  {
     path: "/login",
     name: "login",
     component: () => import("@/views/login/Login.vue"),
@@ -81,27 +86,27 @@ const routes: Array<RouteRecordRaw> = [
         path: "/admin/get_paper_test_status",
         name: "admin_get_paper_test_status",
         component: () => import("@/views/admin/get_paper_test_status.vue"),
-        meta: { requiresAuth: true, role: "admin" },
+        meta: { requiresAuth: true, role: "manager" },
       },
       {
         path: "/admin/forward_presentation_results",
         name: "admin_forward_presentation_results",
         component: () =>
           import("@/views/admin/forward_presentation_results.vue"),
-        meta: { requiresAuth: true, role: "admin" },
+        meta: { requiresAuth: true, role: "manager" },
       },
       {
         path: "/admin/forward_degree_application_results",
         name: "admin_forward_degree_application_results",
         component: () =>
           import("@/views/admin/forward_degree_application_results.vue"),
-        meta: { requiresAuth: true, role: "admin" },
+        meta: { requiresAuth: true, role: "manager" },
       },
       {
         path: "/admin/submit_reviews",
         name: "admin_submit_reviews",
         component: () => import("@/views/admin/submit_reviews.vue"),
-        meta: { requiresAuth: true, role: "admin" },
+        meta: { requiresAuth: true, role: "manager" },
       },
     ],
   },
@@ -109,15 +114,17 @@ const routes: Array<RouteRecordRaw> = [
     path: '/',
     redirect: () => {
       const isLoggedIn = JSON.parse(localStorage.getItem("login") || "false");
-      const id = JSON.parse(localStorage.getItem("id") || "-1");
-      if (isLoggedIn == "true" && id) {
-        GetRole(id).then((res: any) => {
-          if (res.data.role === 'student') {
-            return '/student/personal_info';
-          } else if (res.data.role === 'admin') {
-            return '/admin/get_paper_test_status';
-          }
-        });
+      if (isLoggedIn == "true") {
+        const id = JSON.parse(localStorage.getItem("id") || "-1");
+        if (id != "-1") {
+          GetRole(id).then((res: any) => {
+            if (res.data.role == 'student') {
+              return '/student/personal_info';
+            } else if (res.data.role == 'manager') {
+              return '/admin/get_paper_test_status';
+            }
+          });
+        }
       } else {
         return '/login';
       }
@@ -140,13 +147,13 @@ const router = createRouter({
 
 // 路由守卫
 router.beforeEach((to, from, next) => {
-  if (to.fullPath == '/login' || to.fullPath == '/forget') next();
+  if (to.fullPath == '/login' || to.fullPath == '/forget' || to.fullPath == '/test') next();
   const isLoggedIn = JSON.parse(localStorage.getItem("login") || "false");
-  const id = JSON.parse(localStorage.getItem("id") || "-1");
   if (to.meta.requiresAuth && !isLoggedIn) {
     // 身份验证失败，重定向到登录页面或其他处理
     next('/login');
   } else {
+    const id = localStorage.getItem("id")
     if (id) {
       GetRole(id).then((res: any) => {
         localStorage.setItem("role", res.data.role);

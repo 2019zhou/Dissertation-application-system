@@ -1,10 +1,15 @@
 import instance from "./request";
+import forminstance from "./form_request";
 
 // 登录接口
 export const LoginApi = (id: string, password: string) =>
   instance.post("/api/login", { id: id, password: password });
 //获取当前角色的借口
 export const GetRole = (id: string) => instance.get("/api/GetRole?id=" + id);
+
+//http://1.15.174.76:8080/api/getPersonalInfo/?user_id=51255902041
+export const GetPersonalInfo = (id: string) => instance.get("/api/getPersonalInfo?user_id=" + id)
+
 
 // 更新当前用户信息接口
 export const UpdatePersonalInfo = (
@@ -22,9 +27,12 @@ export const UpdatePersonalInfo = (
     id: id,
     username: username,
     faculty: faculty,
+    department: department,
     academicSystem: academicSystem,
     researchDirection: researchDirection,
     politicalStatus: politicalStatus,
+    phone: phone,
+    mail: mail
   });
 
 //获取当前
@@ -98,4 +106,12 @@ export const UpdateStatus = (id: string, status: string) =>
 // 得到当前状态
 // http://1.15.174.76:8080/api/GetStatus/?student_id=51255902041
 export const GetStatus = (id: string) =>
-  instance.get("api/GetStatus/?student_id=" + id);
+  instance.get("/api/GetStatus/?student_id=" + id);
+
+
+//http://1.15.174.76:8080/api/GetPreReview?student_id=51255902041
+export const GetPreReview = (id: string) => instance.get("/api/GetPreReview?student_id=" + id)
+
+
+//http://1.15.174.76:8080/api/UpdatePreReview
+export const UpdatePreReview = (title: string, abstract: string, paper_direciton:string, paper_pdf:string, user_id:string) => forminstance.post("/api/UpdatePreReview", {title:title, abstract:abstract, paper_direciton:paper_direciton, paper_pdf:paper_pdf, user_id:user_id})

@@ -28,6 +28,8 @@ import { CheckOutlined, EditOutlined } from '@ant-design/icons-vue';
 import { cloneDeep } from 'lodash-es';
 import { UpdateStatus } from '@/request/api'
 
+const id = JSON.parse(localStorage.getItem("id") || "-1");
+
 interface DataItem {
   key: string;
   name: string;
@@ -75,8 +77,7 @@ export default defineComponent({
     };
     const save = (key: string) => {
       Object.assign(dataSource.value.filter(item => key === item.key)[0], editableData[key]);
-      localStorage.setItem("stage", '2')
-      UpdateStatus(formState.username, '1').then((res: any) => {
+      UpdateStatus(id, '2').then((res: any) => {
         if (res.message == 'success') {
           console.log('successfully set the stage to 1')
         } else {

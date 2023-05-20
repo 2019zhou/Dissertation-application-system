@@ -2,49 +2,42 @@
   <a-form :form="form" v-if="loading" class="presentation-form">
     <a-row :gutter="24">
       <a-col :span="8">
-        <a-form-item label="答辩出席人数">
-          {{ form.attendance }}
-          <!-- <a-input v-model="form.attendance" disabled /> -->
+        <a-form-item label="答辩人数">
+          <a-input :value="form.attendance" disabled />
         </a-form-item>
       </a-col>
       <a-col :span="8">
         <a-form-item label="答辩时间">
-          {{ form.presentation_time }}
-          <!-- <a-date-picker v-model="form.presentation_time" disabled /> -->
+          <a-input :value="form.presentation_time" disabled />
         </a-form-item>
       </a-col>
       <a-col :span="8">
         <a-form-item label="答辩地点">
-          {{ form.presentation_location }}
-          <!-- <a-input v-model="form.presentation_location" disabled /> -->
+          <a-input :value="form.presentation_location" disabled />
         </a-form-item>
       </a-col>
     </a-row>
     <a-row :gutter="24">
       <a-col :span="12">
         <a-form-item label="同意通过论文答辩票数">
-          {{ form.paper_pass }}
-          <!-- <a-input v-model="form.paper_pass" disabled /> -->
+          <a-input :value="form.paper_pass" disabled />
         </a-form-item>
       </a-col>
       <a-col :span="12">
         <a-form-item label="不通过论文答辩票数">
-          {{ form.paper_fail }}
-          <!-- <a-input v-model="form.paper_fail" disabled /> -->
+          <a-input :value="form.paper_fail" disabled />
         </a-form-item>
       </a-col>
     </a-row>
     <a-row :gutter="24">
       <a-col :span="12">
         <a-form-item label="同意授予学位票数">
-          {{ form.degree_pass }}
-          <!-- <a-input v-model="form.degree_pass" disabled /> -->
+          <a-input :value="form.degree_pass" disabled />
         </a-form-item>
       </a-col>
       <a-col :span="12">
         <a-form-item label="不同意授予学位票数">
-          {{ form.degree_fail }}
-          <!-- <a-input v-model="form.degree_fail" disabled /> -->
+          <a-input :value="form.degree_fail" disabled />
         </a-form-item>
       </a-col>
     </a-row>
@@ -76,10 +69,10 @@ export default {
   },
   mounted() {
     this.getpre();
-    this.getDataFromLocalStorage();
+    this.getData();
   },
   methods: {
-    getDataFromLocalStorage() {
+    getData() {
       // 从 localStorage 中获取值
       GetStatus(id).then((res: any) => {
         if (res.message == 'success') {

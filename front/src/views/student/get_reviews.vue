@@ -17,7 +17,9 @@
 
 
 <script lang="ts">
-import {GetReviews} from '@/request/api'
+import { GetReviews, GetStatus } from '@/request/api'
+
+const id = JSON.parse(localStorage.getItem("id") || "-1");
 
 export default {
   data() {
@@ -50,68 +52,60 @@ export default {
         },
         {
           title: "总评",
-          dataIndex: "total",
-          key: "total",
+          dataIndex: "generalComment",
+          key: "generalComment",
         },
       ],
-      data: [
-        {
-          key: "1",
-          reviewer: "1",
-          indicator1: "90",
-          indicator2: "80",
-          indicator3: "90",
-          indicator4: "80",
-          total: "85",
-        },
-        {
-          key: "2",
-          reviewer: "2",
-          indicator1: "85",
-          indicator2: "75",
-          indicator3: "90",
-          indicator4: "80",
-          total: "80",
-        },
-        {
-          key: "3",
-          reviewer: "3",
-          indicator1: "92",
-          indicator2: "78",
-          indicator3: "90",
-          indicator4: "80",
-          total: "85",
-        },
-      ],
-      isQualified: "参加答辩",
+      data: [],
+      isQualified: true,
       loading: true,
     };
   },
   mounted() {
-    this.getDataFromLocalStorage();
+    this.getStatus();
+    this.getData();
   },
   methods: {
-    getDataFromLocalStorage() {
+    getStatus() {
       // 从 localStorage 中获取值
       const st = localStorage.getItem('stage');
       // 判断是否存在值并进行相应处理
-      if(st && st >= '2'){
-        this.loading = true;
-      }else{
-        this.loading = false;
-      }
+      GetStatus(id).then((res: any) => {
+        if (res.message == 'success') {
+          if (res.data.status && res.data.status >= '2') {
+            this.loading = true;
+          } else {
+            this.loading = false;
+          }
+        }
+      }).catch((err: any) => {
+        console.log(err);
+      })
     },
-    // getReviews(){
-    //   GetReviews('51255902041').then((res:any) =>{
-    //     if(res.message == "success"){
-    //       datas = 
-    //       this.data.push({res.data.reviewSugs[0].id})
-    //     }
-    //   }
-    //   )
-    // }
+    getData() {
+      GetReviews(id).then((res: any) => {
+        if (res.message == 'success') {
+          this.data = res.data.reviewSugs;
+          console.log(res.data.reviewSugs)
+        }
+        var sum = 0;
+        for(var i = 0;i < this.data.length;i++){
+          sum += parseInt(res.data.reviewSugs[i].generalComment);
+        }
+        if(sum/this.data.length < 75){
+          this.isQualified = false;
+        }else{
+          this.isQualified = true;
+        }
+        // console.log(sum)
+        // console.log(sum/this.data.length)
+      }).catch((err: any) => {
+        console.log(err);
+      })
+    }
   }
-  
+}
+
   //   methods: {
   //     checkScore() {
   //       const totalScore = 80// 根据实际情况计算总分数
@@ -122,7 +116,6 @@ export default {
   //       }
   //     },
   //   },
-};
 </script>
   
 

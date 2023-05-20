@@ -77,14 +77,16 @@ const onFinish = (values: any) => {
                 console.log(ress.data.role)
                 if (ress.data.role == "student") {
                     router.push('/student/personal_info')
-                } else if (ress.data.role == 'manager') {
+                } else if (ress.data.role == "manager") {
                     router.push('/admin/get_paper_test_status')
                 }
             })
+        }else{
+            localStorage.setItem('wp', 'true')
         }
     }).catch((err: any) => {
         console.log(err);
-        localStorage.setItem('wp', 'true')
+        
     })
 };
 

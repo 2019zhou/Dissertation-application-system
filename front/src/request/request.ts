@@ -7,6 +7,8 @@ const instance = axios.create({
   baseURL: "http://1.15.174.76:8080/",
 });
 
+
+
 // 请求拦截器
 instance.interceptors.request.use(
   (config) => {
@@ -31,4 +33,8 @@ instance.interceptors.response.use(
   }
 );
 
+
+
+
 export default instance;
+
