@@ -5,11 +5,8 @@ import com.example.sys.entity.ReviewSug;
 import com.example.sys.entity.User;
 import com.example.sys.service.IReviewSugService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Map;
@@ -35,5 +32,14 @@ public class ReviewSugController {
             return Result.success(data);
         }
         return Result.fail(203, "没有评审建议");
+    }
+
+    @PostMapping("/UpdateReviews")
+    public Result<Map<String, Object>> updateReviews(@RequestBody ReviewSug reviewSug){
+        Map<String, Object> data = reviewSugService.updateReviews(reviewSug);
+        if(data != null){
+            return Result.success(data);
+        }
+        return Result.fail(203, "更新失败");
     }
 }

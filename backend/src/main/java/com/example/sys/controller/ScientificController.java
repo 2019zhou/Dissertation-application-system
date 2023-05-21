@@ -1,6 +1,7 @@
 package com.example.sys.controller;
 
 import com.example.common.vo.Result;
+import com.example.sys.entity.PreReview;
 import com.example.sys.entity.Scientific;
 import com.example.sys.entity.User;
 import com.example.sys.service.IScientificService;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -40,5 +42,11 @@ public class ScientificController {
             return Result.success(data);
         }
         return Result.fail(202, "学号不存在，更新失败");
+    }
+
+    @GetMapping("/GetAllResearch")
+    public Result<List<Scientific>> getAllResearch(){
+        List<Scientific> list = scientificService.list();
+        return Result.success(list, "search success");
     }
 }

@@ -1,8 +1,10 @@
 package com.example.sys.service;
 
+import com.example.sys.entity.Paper;
 import com.example.sys.entity.PreReview;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,4 +18,16 @@ import java.util.Map;
 public interface IPreReviewService extends IService<PreReview> {
 
     Map<String, Object> updatePreReview(PreReview preReview);
+
+    Map<String, Object> updateDegreePdf(String userId, Integer pdfId);
+
+    Map<String, Object> getPaperTitle(String id);
+
+    Map<String, Object> getPreReview(String id);
+
+    Integer getDegreePdfId(String userId);
+
+    Integer getPaperPdfId(String userId);
+
+    List<Paper> getPaperTestStatus();
 }

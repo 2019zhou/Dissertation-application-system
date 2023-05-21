@@ -16,4 +16,6 @@ import java.util.Map;
 public interface IReviewSugService extends IService<ReviewSug> {
 
     Map<String, Object> getReviews(String userId);
+
+    Map<String, Object> updateReviews(ReviewSug reviewSug);
 }

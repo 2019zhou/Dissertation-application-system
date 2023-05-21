@@ -8,6 +8,8 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * <p>
  *  Mapper 接口
@@ -30,4 +32,10 @@ public interface UserMapper extends BaseMapper<User> {
         updateWrapper.eq("id",user.getId());
         this.update(user, updateWrapper);
     }
+
+    @Update("UPDATE x_user SET degree_application_status = #{degreeApplicationStatus} WHERE id = #{id}")
+    void updateDegreeApplStatus(@Param("id") String id, @Param("degreeApplicationStatus") String degreeApplicationStatus);
+
+    @Select("SELECT * FROM x_user WHERE degree_application_status = '学位申请'")
+    List<User> getAllApplyDegree();
 }

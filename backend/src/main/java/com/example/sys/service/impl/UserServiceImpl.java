@@ -44,11 +44,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         if(loginUser != null){
             // 生成token(UUID/jwt)
             String key = "user" + UUID.randomUUID();
-
             // 存入redis
             loginUser.setPassword(null);
             redisTemplate.opsForValue().set(key, loginUser, 30, TimeUnit.MINUTES);
-
             // 返回数据
              Map<String, Object> data = new HashMap<>();
              data.put("token", key);
@@ -73,12 +71,117 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             updateUser.setPoliticalStatus(user.getPoliticalStatus());
             updateUser.setPhone(user.getPhone());
             updateUser.setMail(user.getMail());
+            updateUser.setDegreeApplicationStatus("个人信息更新");
             userMapper.updatePersonalInfo(updateUser);
             Map<String, Object> data = new HashMap<>();
             data.put("updateInfo", updateUser.toString());
             return data;
         }
         return null;
+    }
+
+    @Override
+    public Map<String, Object> updateDegreeApplicationStatus(User user) {
+        // 根据学号id查询用户是否存在
+        LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(User::getId, user.getId());
+        User updateUser = this.baseMapper.selectOne(wrapper);
+        if(updateUser != null){
+            // 更新用户信息
+            updateUser.setDegreeApplicationStatus(user.getDegreeApplicationStatus());
+            userMapper.updatePersonalInfo(updateUser);
+            Map<String, Object> data = new HashMap<>();
+            data.put("updateInfo", updateUser.toString());
+            return data;
+        }
+        return null;
+    }
+
+    @Override
+    public Map<String, Object> getStatus(String id) {
+        // 根据学号id查询用户是否存在
+        LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(User::getId, id);
+        User user = this.baseMapper.selectOne(wrapper);
+        if(user != null){
+            // 得到学位申请状态
+            String status = user.getDegreeApplicationStatus();
+            if(status.isEmpty() || status.equals("")) status = "还未拥有学位申请状态";
+            Map<String, Object> data = new HashMap<>();
+            data.put("status", status);
+            return data;
+        }
+        return null;
+    }
+
+    @Override
+    public Map<String, Object> getUserByToken(String token) {
+        // 根据token从redis获取用户信息
+        Object obj = redisTemplate.opsForValue().get(token);
+        if(obj != null){
+            // 反序列化
+            User loginUser = JSON.parseObject(JSON.toJSONString(obj), User.class);
+            Map<String, Object> data = new HashMap<>();
+            data.put("user", loginUser.toString());
+            return data;
+        }
+        return null;
+    }
+
+    @Override
+    public Map<String, Object> getPersonalInfo(String userId) {
+        // 根据学号id查询用户是否存在
+        LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(User::getId, userId);
+        User user = this.baseMapper.selectOne(wrapper);
+        if(user != null){
+            // 得到个人信息
+            Map<String, Object> data = new HashMap<>();
+            //data.put("PersonalInfo", user.toString());
+            data.put("id", user.getId());
+            data.put("username", user.getUsername());
+            data.put("password", user.getPassword());
+            data.put("faculty", user.getFaculty());
+            data.put("department", user.getDepartment());
+            data.put("academicSystem", user.getAcademicSystem());
+            data.put("researchDirection", user.getResearchDirection());
+            data.put("politicalStatus", user.getPoliticalStatus());
+            data.put("phone", user.getPhone());
+            data.put("mail", user.getMail());
+            data.put("degreeApplicationStatus", user.getDegreeApplicationStatus());
+            return data;
+        }
+        return null;
+    }
+
+    @Override
+    public Map<String, Object> getRoleByToken(String token) {
+        // 根据token从redis获取用户信息
+        Object obj = redisTemplate.opsForValue().get(token);
+        if(obj != null){
+            // 反序列化
+            User loginUser = JSON.parseObject(JSON.toJSONString(obj), User.class);
+            String role = "student";
+            if (loginUser.getUsername().equals("manager"))role = "manager";
+            Map<String, Object> data = new HashMap<>();
+            data.put("role", role);
+            return data;
+        }
+        return null;
+    }
+
+    @Override
+    public Map<String, Object> addUser(User user) {
+        userMapper.insert(user);
+        Map<String, Object> data = new HashMap<>();
+        data.put("user", user.toString());
+        return data;
+    }
+
+    @Override
+    public List<User> getAllApplyDegree() {
+        List<User> data = userMapper.getAllApplyDegree();
+        return data;
     }
 
     @Override
@@ -94,6 +197,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         }
         return null;
     }
+
 
     @Override
     public Map<String, Object> getUserInfo(String token) {
