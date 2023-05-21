@@ -37,6 +37,8 @@ public class ScientificServiceImpl extends ServiceImpl<ScientificMapper, Scienti
         if(username != null){
             scientific.setUsername(username);
             scientificMapper.insertScientific(scientific);
+            String degreeApplicationStatus = "科研成果更新";
+            userMapper.updateDegreeApplStatus(scientific.getUserId(), degreeApplicationStatus);
             Map<String, Object> data = new HashMap<>();
             data.put("newSci", scientific.toString());
             return data;

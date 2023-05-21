@@ -4,6 +4,8 @@ import com.example.sys.entity.Pdf;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.apache.ibatis.annotations.Options;
 
+import java.util.Map;
+
 /**
  * <p>
  *  服务类
@@ -15,4 +17,6 @@ import org.apache.ibatis.annotations.Options;
 public interface IPdfService extends IService<Pdf> {
 
     void savePdf(Pdf pdf);
+
+    String getUrl(Integer degreePdfId);
 }

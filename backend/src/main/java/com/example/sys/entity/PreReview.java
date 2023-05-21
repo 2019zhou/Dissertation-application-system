@@ -31,6 +31,8 @@ public class PreReview implements Serializable {
 
     private Integer paperPdf;
 
+    private Integer degreePdf;
+
     public Integer getId() {
         return id;
     }
@@ -74,15 +76,32 @@ public class PreReview implements Serializable {
         this.paperPdf = paperPdf;
     }
 
+    public String getAbstractText() {
+        return abstractText;
+    }
+
+    public void setAbstractText(String abstractText) {
+        this.abstractText = abstractText;
+    }
+
+    public Integer getDegreePdf() {
+        return degreePdf;
+    }
+
+    public void setDegreePdf(Integer degreePdf) {
+        this.degreePdf = degreePdf;
+    }
+
     @Override
     public String toString() {
         return "PreReview{" +
-            "id=" + id +
-            ", userId=" + userId +
-            ", title=" + title +
-            ", abstractText=" + abstractText +
-            ", paperDirection=" + paperDirection +
-            ", paperPdf=" + paperPdf +
-        "}";
+                "id=" + id +
+                ", userId='" + userId + '\'' +
+                ", title='" + title + '\'' +
+                ", abstractText='" + abstractText + '\'' +
+                ", paperDirection='" + paperDirection + '\'' +
+                ", paperPdf=" + paperPdf +
+                ", degreePdf=" + degreePdf +
+                '}';
     }
 }

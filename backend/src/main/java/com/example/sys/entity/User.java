@@ -36,6 +36,8 @@ public class User implements Serializable {
 
     private String mail;
 
+    private String degreeApplicationStatus;
+
     public String getId() {
         return id;
     }
@@ -109,19 +111,28 @@ public class User implements Serializable {
         this.mail = mail;
     }
 
+    public String getDegreeApplicationStatus() {
+        return degreeApplicationStatus;
+    }
+
+    public void setDegreeApplicationStatus(String degreeApplicationStatus) {
+        this.degreeApplicationStatus = degreeApplicationStatus;
+    }
+
     @Override
     public String toString() {
         return "User{" +
-            "id=" + id +
-            ", username=" + username +
-            ", password=" + password +
-            ", faculty=" + faculty +
-            ", department=" + department +
-            ", academicSystem=" + academicSystem +
-            ", researchDirection=" + researchDirection +
-            ", politicalStatus=" + politicalStatus +
-            ", phone=" + phone +
-            ", mail=" + mail +
-        "}";
+                "id='" + id + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", faculty='" + faculty + '\'' +
+                ", department='" + department + '\'' +
+                ", academicSystem='" + academicSystem + '\'' +
+                ", researchDirection='" + researchDirection + '\'' +
+                ", politicalStatus='" + politicalStatus + '\'' +
+                ", phone='" + phone + '\'' +
+                ", mail='" + mail + '\'' +
+                ", degreeApplicationStatus='" + degreeApplicationStatus + '\'' +
+                '}';
     }
 }

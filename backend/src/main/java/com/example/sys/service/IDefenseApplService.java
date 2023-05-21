@@ -16,4 +16,6 @@ import java.util.Map;
 public interface IDefenseApplService extends IService<DefenseAppl> {
 
     Map<String, Object> updatePreAppl(DefenseAppl defenseAppl);
+
+    Map<String, Object> getPresentationApplication(String userId);
 }

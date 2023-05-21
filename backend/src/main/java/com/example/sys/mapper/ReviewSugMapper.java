@@ -20,4 +20,7 @@ import java.util.List;
 public interface ReviewSugMapper extends BaseMapper<ReviewSug> {
     @Select("SELECT * FROM x_review_sug WHERE user_id = #{userId}")
     List<ReviewSug> findByUserId(@Param("userId") String userId);
+
+    @Select("SELECT * FROM x_review_sug WHERE user_id = #{userId} AND reviewer = #{reviewer}")
+    List<ReviewSug> findByUserIdAndReviewer(String userId, String reviewer);
 }

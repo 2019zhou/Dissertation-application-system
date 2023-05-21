@@ -11,7 +11,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author TangZT
- * @since 2023-05-13
+ * @since 2023-05-17
  */
 @TableName("x_blind_review")
 public class BlindReview implements Serializable {
@@ -23,17 +23,19 @@ public class BlindReview implements Serializable {
 
     private String userId;
 
-    private String paperId;
+    private String title;
 
-    private String innovative;
+    private String dissertationId;
 
-    private String logicalStructure;
+    private String results;
+
+    private String novelty;
+
+    private String logic;
 
     private String readability;
 
-    private String comprehensiveReview;
-
-    private String review;
+    private String suggestions;
 
     public Integer getId() {
         return id;
@@ -49,26 +51,40 @@ public class BlindReview implements Serializable {
     public void setUserId(String userId) {
         this.userId = userId;
     }
-    public String getPaperId() {
-        return paperId;
+    public String getTitle() {
+        return title;
     }
 
-    public void setPaperId(String paperId) {
-        this.paperId = paperId;
+    public void setTitle(String title) {
+        this.title = title;
     }
-    public String getInnovative() {
-        return innovative;
-    }
-
-    public void setInnovative(String innovative) {
-        this.innovative = innovative;
-    }
-    public String getLogicalStructure() {
-        return logicalStructure;
+    public String getDissertationId() {
+        return dissertationId;
     }
 
-    public void setLogicalStructure(String logicalStructure) {
-        this.logicalStructure = logicalStructure;
+    public void setDissertationId(String dissertationId) {
+        this.dissertationId = dissertationId;
+    }
+    public String getResults() {
+        return results;
+    }
+
+    public void setResults(String results) {
+        this.results = results;
+    }
+    public String getNovelty() {
+        return novelty;
+    }
+
+    public void setNovelty(String novelty) {
+        this.novelty = novelty;
+    }
+    public String getLogic() {
+        return logic;
+    }
+
+    public void setLogic(String logic) {
+        this.logic = logic;
     }
     public String getReadability() {
         return readability;
@@ -77,19 +93,12 @@ public class BlindReview implements Serializable {
     public void setReadability(String readability) {
         this.readability = readability;
     }
-    public String getComprehensiveReview() {
-        return comprehensiveReview;
+    public String getSuggestions() {
+        return suggestions;
     }
 
-    public void setComprehensiveReview(String comprehensiveReview) {
-        this.comprehensiveReview = comprehensiveReview;
-    }
-    public String getReview() {
-        return review;
-    }
-
-    public void setReview(String review) {
-        this.review = review;
+    public void setSuggestions(String suggestions) {
+        this.suggestions = suggestions;
     }
 
     @Override
@@ -97,12 +106,13 @@ public class BlindReview implements Serializable {
         return "BlindReview{" +
             "id=" + id +
             ", userId=" + userId +
-            ", paperId=" + paperId +
-            ", innovative=" + innovative +
-            ", logicalStructure=" + logicalStructure +
+            ", title=" + title +
+            ", dissertationId=" + dissertationId +
+            ", results=" + results +
+            ", novelty=" + novelty +
+            ", logic=" + logic +
             ", readability=" + readability +
-            ", comprehensiveReview=" + comprehensiveReview +
-            ", review=" + review +
+            ", suggestions=" + suggestions +
         "}";
     }
 }
