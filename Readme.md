@@ -9,3 +9,15 @@ https://shimo.im/file-invite/JAw3Ei4Y8jsmZNzF94cySX2V13Lj6/ 18800537460 邀请�
 
 ## 接口设计
 APIpost
+
+## 运行方法
+前端
+```
+npm install 
+npm run dev
+```
+后端
+
+配置mysql, 安装redis
+
+修改backend\src\main\resources\application.yml
